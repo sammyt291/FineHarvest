@@ -21,7 +21,7 @@ public final class FineHarvest extends JavaPlugin {
         getServer().getConsoleSender().sendMessage("[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "]" + ChatColor.GREEN + " enabled");
 
         //event listener
-        getServer().getPluginManager().registerEvents(new events(), this);
+        getServer().getPluginManager().registerEvents(new Events(), this);
 
         //bStats init
         Metrics metrics = new Metrics(this, 20222);

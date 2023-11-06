@@ -25,7 +25,7 @@ import static finetree.org.fineharvest.Sounds.breakSound;
 import static finetree.org.fineharvest.Sounds.popSound;
 
 
-public class events implements Listener  {
+public class Events implements Listener  {
     @EventHandler(priority= EventPriority.HIGH)
     public void use(PlayerInteractEvent e) {
         Player ply = e.getPlayer();
