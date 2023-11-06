@@ -1,0 +1,7 @@
+name: FineHarvest
+version: '${project.version}'
+main: finetree.org.fineharvest.FineHarvest
+api-version: 1.14
+authors: [ Steampunk_Sam ]
+description: Allows auto-plant harvesting with Hoes
+website: finetree.org
