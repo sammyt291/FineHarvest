@@ -9,6 +9,8 @@ public final class FineHarvest extends JavaPlugin {
     private static FineHarvest plugin;
     private static boolean isMCMMO = false;
 
+    private static String tag = "[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "]";
+
     @Override
     public void onEnable() {
         //Initialize plugin getter
@@ -17,6 +19,7 @@ public final class FineHarvest extends JavaPlugin {
         //Check for mcMMO
         if (getServer().getPluginManager().getPlugin("mcMMO") != null) {
             isMCMMO = true;
+            getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + " mcMMO support enabled");
         }
 
         //Initialize Config
@@ -24,7 +27,7 @@ public final class FineHarvest extends JavaPlugin {
         config.target(Config.class).saveDefaults().load();
 
         // Plugin startup logic
-        getServer().getConsoleSender().sendMessage("[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "]" + ChatColor.GREEN + " enabled");
+        getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + " enabled");
 
         //event listener
         getServer().getPluginManager().registerEvents(new Events(), this);
@@ -36,7 +39,7 @@ public final class FineHarvest extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        getServer().getConsoleSender().sendMessage("[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "]" + ChatColor.RED + " disabled");
+        getServer().getConsoleSender().sendMessage(tag + ChatColor.RED + " disabled");
     }
 
     public static FineHarvest getPlugin() {
