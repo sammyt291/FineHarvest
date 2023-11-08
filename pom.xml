@@ -6,7 +6,7 @@
 
     <groupId>finetree.org</groupId>
     <artifactId>FineHarvest</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <packaging>jar</packaging>
 
     <name>FineHarvest</name>
@@ -89,6 +89,10 @@
             <id>neetgames</id>
             <url>https://nexus.neetgames.com/repository/maven-releases/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -108,6 +112,12 @@
             <groupId>com.gmail.nossr50.mcMMO</groupId>
             <artifactId>mcMMO</artifactId>
             <version>2.1.225</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Archy-X</groupId>
+            <artifactId>AureliumSkills</artifactId>
+            <version>Beta1.3.23</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -5,4 +5,4 @@ api-version: 1.14
 authors: [ Steampunk_Sam ]
 description: Allows auto-plant harvesting with Hoes
 website: finetree.org
-softdepend: [mcMMO]
+softdepend: [ mcMMO, AureliumSkills ]

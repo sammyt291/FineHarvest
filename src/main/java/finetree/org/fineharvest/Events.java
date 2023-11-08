@@ -1,5 +1,6 @@
 package finetree.org.fineharvest;
 
+import com.archyx.aureliumskills.skills.Skills;
 import com.gmail.nossr50.config.experience.ExperienceConfig;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import org.bukkit.Material;
@@ -21,8 +22,10 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Random;
 
+import static com.archyx.aureliumskills.api.AureliumAPI.addXp;
 import static com.gmail.nossr50.api.ExperienceAPI.addXP;
 import static finetree.org.fineharvest.Config.*;
+import static finetree.org.fineharvest.FineHarvest.isAurelium;
 import static finetree.org.fineharvest.FineHarvest.isMCMMO;
 import static finetree.org.fineharvest.Sounds.breakSound;
 import static finetree.org.fineharvest.Sounds.popSound;
@@ -100,9 +103,15 @@ public class Events implements Listener  {
                         data.set(countKey, PersistentDataType.INTEGER, next);
                         item.setItemMeta(itemMeta);
 
-                        //McMMO Compat for Herbalism XP gain
-                        if (isMCMMO()) {
+                        //McMMO Compat for Herbalism XP
+                        if (isMCMMO) {
                             addXP(ply, "HERBALISM", ExperienceConfig.getInstance().getXp(PrimarySkillType.HERBALISM, mat), "PVE");
+                        }
+
+                        //AureliumSkills Compat for Farming XP
+                        if(isAurelium){
+                            //ply.sendMessage("Got: " + AureliumSkills.getSourceRegistry().values(Skills.FARMING)[0]);
+                            addXp(ply, Skills.FARMING, FineHarvest.getAureliumSources().getDouble("sources.farming." + mat.toString().toLowerCase()));
                         }
 
                     } //isRipe

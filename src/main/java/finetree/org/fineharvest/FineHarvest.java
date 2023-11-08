@@ -1,15 +1,21 @@
 package finetree.org.fineharvest;
 
+import com.archyx.aureliumskills.AureliumSkills;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import redempt.redlib.config.ConfigManager;
+
+import java.io.File;
 
 public final class FineHarvest extends JavaPlugin {
 
     private static FineHarvest plugin;
-    private static boolean isMCMMO = false;
+    public static boolean isMCMMO = false;
+    public static boolean isAurelium = false;
+    public static YamlConfiguration AureliumSources;
 
-    private static String tag = "[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "]";
+    private static String tag = "[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "] ";
 
     @Override
     public void onEnable() {
@@ -19,7 +25,14 @@ public final class FineHarvest extends JavaPlugin {
         //Check for mcMMO
         if (getServer().getPluginManager().getPlugin("mcMMO") != null) {
             isMCMMO = true;
-            getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + " mcMMO support enabled");
+            getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "mcMMO support enabled");
+        }
+        //Check for Aurelium
+        if (getServer().getPluginManager().getPlugin("AureliumSkills") != null) {
+            File file = new File("plugins/AureliumSkills/sources_config.yml");
+            AureliumSources = YamlConfiguration.loadConfiguration(file);
+            isAurelium = true;
+            getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "AureliumSkills support enabled");
         }
 
         //Initialize Config
@@ -27,7 +40,7 @@ public final class FineHarvest extends JavaPlugin {
         config.target(Config.class).saveDefaults().load();
 
         // Plugin startup logic
-        getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + " enabled");
+        getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "enabled");
 
         //event listener
         getServer().getPluginManager().registerEvents(new Events(), this);
@@ -39,14 +52,13 @@ public final class FineHarvest extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        getServer().getConsoleSender().sendMessage(tag + ChatColor.RED + " disabled");
+        getServer().getConsoleSender().sendMessage(tag + ChatColor.RED + "disabled");
     }
 
     public static FineHarvest getPlugin() {
         return plugin;
     }
-
-    public static boolean isMCMMO() {
-        return isMCMMO;
+    public static YamlConfiguration getAureliumSources() {
+        return AureliumSources;
     }
 }
