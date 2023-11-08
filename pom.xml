@@ -6,7 +6,7 @@
 
     <groupId>finetree.org</groupId>
     <artifactId>FineHarvest</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <name>FineHarvest</name>
@@ -81,6 +81,14 @@
             <id>redempt.dev</id>
             <url>https://redempt.dev</url>
         </repository>
+        <repository>
+            <id>sk89q-repo</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <repository>
+            <id>neetgames</id>
+            <url>https://nexus.neetgames.com/repository/maven-releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -95,6 +103,12 @@
             <artifactId>RedLib</artifactId>
             <version>6.5.2.1</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.gmail.nossr50.mcMMO</groupId>
+            <artifactId>mcMMO</artifactId>
+            <version>2.1.225</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

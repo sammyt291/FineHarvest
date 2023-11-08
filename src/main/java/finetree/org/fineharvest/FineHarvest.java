@@ -7,11 +7,17 @@ import redempt.redlib.config.ConfigManager;
 public final class FineHarvest extends JavaPlugin {
 
     private static FineHarvest plugin;
+    private static boolean isMCMMO = false;
 
     @Override
     public void onEnable() {
         //Initialize plugin getter
         plugin = this;
+
+        //Check for mcMMO
+        if (getServer().getPluginManager().getPlugin("mcMMO") != null) {
+            isMCMMO = true;
+        }
 
         //Initialize Config
         ConfigManager config = ConfigManager.create(this);
@@ -35,5 +41,9 @@ public final class FineHarvest extends JavaPlugin {
 
     public static FineHarvest getPlugin() {
         return plugin;
+    }
+
+    public static boolean isMCMMO() {
+        return isMCMMO;
     }
 }

@@ -1,6 +1,7 @@
 package finetree.org.fineharvest;
 
-import org.bukkit.ChatColor;
+import com.gmail.nossr50.config.experience.ExperienceConfig;
+import com.gmail.nossr50.datatypes.skills.PrimarySkillType;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -20,7 +21,9 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Random;
 
+import static com.gmail.nossr50.api.ExperienceAPI.addXP;
 import static finetree.org.fineharvest.Config.*;
+import static finetree.org.fineharvest.FineHarvest.isMCMMO;
 import static finetree.org.fineharvest.Sounds.breakSound;
 import static finetree.org.fineharvest.Sounds.popSound;
 
@@ -28,46 +31,37 @@ import static finetree.org.fineharvest.Sounds.popSound;
 public class Events implements Listener  {
     @EventHandler(priority= EventPriority.HIGH)
     public void use(PlayerInteractEvent e) {
-        Player ply = e.getPlayer();
-        ItemStack item = e.getItem();
 
+        //Using permission and player doesn't have it, just do nothing.
+        Player ply = e.getPlayer();
+        if(usePermissions && !ply.hasPermission("fineharvest.use")){
+            return;
+        }
+
+        ItemStack item = e.getItem();
         if(item == null){return;}
         Material type = item.getType();
 
-        // Item is Hoe
         if (isHoe(type)) {
 
-            //Using permission and player doesn't have it, just do nothing.
-            if(usePermissions && !ply.hasPermission("fineharvest.use")){
-                return;
-            }
-
-            // Get clicked block
             Block clickedBlock = e.getClickedBlock();
-
-            // block is not null and right-clicked
             if (clickedBlock != null && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                //ply.sendMessage("RClicked");
 
                 Material mat = clickedBlock.getType();
-                // block is a crop
                 if (isCrop(mat)) {
 
                     Ageable age = (Ageable) clickedBlock.getBlockData();
-
                     if(isRipe(mat, age.getAge())) {
 
-                        //Play a sound
                         popSound(clickedBlock, harvestVolume);
 
                         //"Replant"
                         age.setAge(0);
                         clickedBlock.setBlockData(age);
 
+                        //Drop harvest items
                         ItemMeta itemMeta = item.getItemMeta();
                         if(itemMeta == null){return;}
-
-                        //Get correct items and drop them
                         dropSeeds(mat, clickedBlock, item);
 
                         //Delay durability damage with Unbreaking level.
@@ -105,6 +99,11 @@ public class Events implements Listener  {
 
                         data.set(countKey, PersistentDataType.INTEGER, next);
                         item.setItemMeta(itemMeta);
+
+                        //McMMO Compat for Herbalism XP gain
+                        if (isMCMMO()) {
+                            addXP(ply, "HERBALISM", ExperienceConfig.getInstance().getXp(PrimarySkillType.HERBALISM, mat), "PVE");
+                        }
 
                     } //isRipe
                 } //isCrop
