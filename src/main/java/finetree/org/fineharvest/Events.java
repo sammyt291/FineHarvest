@@ -182,14 +182,14 @@ public class Events implements Listener  {
                 }
                 break;
             case CARROTS:
-                drops.setType(Material.CARROTS);
+                drops.setType(Material.CARROT);
                 drops.setAmount(rand(minCarrots, maxCarrots + fortune));
                 if(drops.getAmount() > 0) {
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
                 }
                 break;
             case POTATOES:
-                drops.setType(Material.POTATOES);
+                drops.setType(Material.POTATO);
                 drops.setAmount(rand(minPotatos, maxPotatos + fortune));
                 if(drops.getAmount() > 0){
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
