@@ -41,17 +41,22 @@ public class Events implements Listener  {
             return;
         }
 
+        //Get the item in hand
         ItemStack item = e.getItem();
         if(item == null){return;}
         Material type = item.getType();
 
         if (isHoe(type)) {
 
-            Block clickedBlock = e.getClickedBlock();
-            if (clickedBlock != null && e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                Block clickedBlock = e.getClickedBlock();
+                if(clickedBlock == null){return;}
 
                 Material mat = clickedBlock.getType();
                 if (isCrop(mat)) {
+
+                    //Check supported plugins if we can build here
+                    if(!BuildCheck.canBuild(ply, clickedBlock)){return;}
 
                     Ageable age = (Ageable) clickedBlock.getBlockData();
                     if(isRipe(mat, age.getAge())) {
