@@ -47,7 +47,6 @@ public class UpdateChecker {
             int numberB = i < partsB.length ? Integer.parseInt(partsB[i]) : 0;
 
             if (numberA > numberB) {
-                FineHarvest.getPlugin().getServer().getConsoleSender().sendMessage(numberA + " vs " + numberB);
                 return true;
             } else if (numberA < numberB) {
                 return false;
