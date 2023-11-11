@@ -8,6 +8,8 @@ import redempt.redlib.config.ConfigManager;
 
 import java.io.File;
 
+import static finetree.org.fineharvest.UpdateChecker.isVersionGreater;
+
 public final class FineHarvest extends JavaPlugin {
 
     private static FineHarvest plugin;
@@ -47,6 +49,15 @@ public final class FineHarvest extends JavaPlugin {
 
         //bStats init
         Metrics metrics = new Metrics(this, 20222);
+
+        //Update checker
+        new UpdateChecker(this, 113415).getVersion(version -> {
+            if (isVersionGreater(this.getDescription().getVersion(), version)) {
+                getServer().getConsoleSender().sendMessage(tag + ChatColor.RED + "There is a new update available ("+version+"): " + ChatColor.GOLD + "https://www.spigotmc.org/resources/fineharvest.113415/");
+            } else {
+                getServer().getConsoleSender().sendMessage(tag + "Up to date!");
+            }
+        });
     }
 
     @Override
