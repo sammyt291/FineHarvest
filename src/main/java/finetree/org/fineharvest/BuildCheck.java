@@ -39,7 +39,7 @@ public class BuildCheck {
         if(hasPlugin("Towny")) {
             boolean canDestroy = PlayerCacheUtil.getCachePermission(ply, b.getLocation(), b.getType(), TownyPermission.ActionType.DESTROY);
             if(canDestroy){
-                ply.sendMessage("Towny Allowed");
+                //ply.sendMessage("Towny Allowed");
                 return true;
             }else{
                 return false;
@@ -52,7 +52,7 @@ public class BuildCheck {
                 LandPlayer landPlayer = api.getLandPlayer(ply.getUniqueId());
                 if(landPlayer != null) {
                     if (world.hasRoleFlag(landPlayer, b.getLocation(), me.angeschossen.lands.api.flags.type.Flags.BLOCK_BREAK, b.getType(), true)) {
-                        ply.sendMessage("Lands Allowed");
+                        //ply.sendMessage("Lands Allowed");
                         return true;
                     }else{
                         return false;
@@ -63,7 +63,7 @@ public class BuildCheck {
         if(hasPlugin("griefPrevention")){
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(b.getLocation(), true, null);
             if(claim.checkPermission(ply.getUniqueId(), ClaimPermission.Build, null) == null){
-                ply.sendMessage("griefPrevention Allowed");
+                //ply.sendMessage("griefPrevention Allowed");
                 return true;
             }else{
                 return false;
@@ -79,28 +79,28 @@ public class BuildCheck {
                 //Is building generally allowed?
                 StateFlag.State build = region.getWGRegion().getFlag(Flags.BUILD);
                 if (build == StateFlag.State.ALLOW) {
-                    ply.sendMessage("ProtectionStones BUILD");
+                    //ply.sendMessage("ProtectionStones BUILD");
                     return true;
                 }
 
                 //Perhaps just block breaking?
                 StateFlag.State blockbreak = region.getWGRegion().getFlag(Flags.BLOCK_BREAK);
                 if (blockbreak == StateFlag.State.ALLOW) {
-                    ply.sendMessage("ProtectionStones BLOCKBREAK");
+                    //ply.sendMessage("ProtectionStones BLOCKBREAK");
                     return true;
                 }
 
                 //Perhaps an Owner?
                 DefaultDomain owners = region.getWGRegion().getOwners();
                 if (owners.contains(ply.getUniqueId())) {
-                    ply.sendMessage("ProtectionStones Owner");
+                    //ply.sendMessage("ProtectionStones Owner");
                     return true;
                 }
 
                 //Are they a member?
                 DefaultDomain members = region.getWGRegion().getMembers();
                 if (members.contains(ply.getUniqueId())) {
-                    ply.sendMessage("ProtectionStones Member");
+                    //ply.sendMessage("ProtectionStones Member");
                     return true;
                 }
 
@@ -116,13 +116,13 @@ public class BuildCheck {
             //Are they a member?
             HashSet<UUID> members = plot.getMembers();
             if(members.contains(plotply.getUUID())){
-                ply.sendMessage("PlotSquared Member");
+                //ply.sendMessage("PlotSquared Member");
                 return true;
             }
             //Or an Owner perhaps?
             Set<UUID> owners = plot.getOwners();
             if(owners.contains(plotply.getUUID())){
-                ply.sendMessage("PlotSquared Owner");
+                //ply.sendMessage("PlotSquared Owner");
                 return true;
             }
 
@@ -142,15 +142,15 @@ public class BuildCheck {
             RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
             RegionQuery query = container.createQuery();
             if(query.testState(BukkitAdapter.adapt(b.getLocation()), localPlayer, Flags.BLOCK_BREAK)) {
-                ply.sendMessage("WorldGuard BLOCKBREAK");
+                //ply.sendMessage("WorldGuard BLOCKBREAK");
                 return true;
             }
             if(query.testState(BukkitAdapter.adapt(b.getLocation()), localPlayer, Flags.BUILD)) {
-                ply.sendMessage("WorldGuard BUILD");
+                //ply.sendMessage("WorldGuard BUILD");
                 return true;
             }
         }
-        ply.sendMessage("No Build Perms");
+        //ply.sendMessage("No Build Perms");
         return false;
     }
 
