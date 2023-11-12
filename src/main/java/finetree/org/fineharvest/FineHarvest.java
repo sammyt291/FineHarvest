@@ -13,7 +13,6 @@ import static finetree.org.fineharvest.UpdateChecker.isVersionGreater;
 public final class FineHarvest extends JavaPlugin {
 
     private static FineHarvest plugin;
-    public static boolean isMCMMO = false;
     public static YamlConfiguration AureliumSources;
 
     private static String tag = "[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "] ";
@@ -24,8 +23,7 @@ public final class FineHarvest extends JavaPlugin {
         plugin = this;
 
         //Check for mcMMO
-        if (getServer().getPluginManager().getPlugin("mcMMO") != null) {
-            isMCMMO = true;
+        if (hasPlugin("mcMMO")) {
             getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "mcMMO support enabled");
         }
         //Check for Aurelium
