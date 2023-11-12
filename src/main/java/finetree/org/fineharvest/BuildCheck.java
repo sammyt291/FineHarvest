@@ -60,13 +60,15 @@ public class BuildCheck {
                 }
             }
         }
-        if(hasPlugin("griefPrevention")){
+        if(hasPlugin("griefPrevention")) {
             Claim claim = GriefPrevention.instance.dataStore.getClaimAt(b.getLocation(), true, null);
-            if(claim.checkPermission(ply.getUniqueId(), ClaimPermission.Build, null) == null){
-                //ply.sendMessage("griefPrevention Allowed");
-                return true;
-            }else{
-                return false;
+            if (claim != null) {
+                if (claim.checkPermission(ply.getUniqueId(), ClaimPermission.Build, null) == null) {
+                    //ply.sendMessage("griefPrevention Allowed");
+                    return true;
+                } else {
+                    return false;
+                }
             }
         }
         if(hasPlugin("ProtectionStones")){
@@ -154,7 +156,7 @@ public class BuildCheck {
         return false;
     }
 
-    private static boolean hasPlugin(String plugin){
+    public static boolean hasPlugin(String plugin){
         return getServer().getPluginManager().getPlugin(plugin) != null;
     }
 
