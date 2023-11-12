@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,12 +12,15 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.Plugin;
 
+import java.io.File;
 import java.util.Random;
 
 import static finetree.org.fineharvest.BuildCheck.hasPlugin;
@@ -220,5 +224,16 @@ public class Events implements Listener  {
     public static int rand(int a, int b) {
         Random random = new Random();
         return a + random.nextInt(b - a + 1);
+    }
+
+    //If AureliumSkills reloads we can regrab its config incase it changed.
+    @EventHandler
+    public void aureliumEnable(PluginEnableEvent e) {
+        Plugin plugin = e.getPlugin();
+        if( plugin.getDescription().getName().equals("AureliumSkills") ){
+            FineHarvest.getPlugin().getServer().getConsoleSender().sendMessage(FineHarvest.tag + "Reloading Aurelium XP Values.");
+            File file = new File("plugins/AureliumSkills/sources_config.yml");
+            FineHarvest.AureliumSources = YamlConfiguration.loadConfiguration(file);
+        }
     }
 }

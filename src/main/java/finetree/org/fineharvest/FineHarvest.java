@@ -14,9 +14,8 @@ public final class FineHarvest extends JavaPlugin {
 
     private static FineHarvest plugin;
     public static YamlConfiguration AureliumSources;
-    public static boolean noProtWarn = false;
 
-    private static String tag = "[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "] ";
+    public static String tag = "[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "] ";
 
     @Override
     public void onEnable() {
@@ -63,6 +62,7 @@ public final class FineHarvest extends JavaPlugin {
         getServer().getConsoleSender().sendMessage(tag + ChatColor.RED + "disabled");
     }
 
+    public static boolean noProtWarn = false;
     public static void warnNoProtection() {
         if(!noProtWarn){
             noProtWarn = true;

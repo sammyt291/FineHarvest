@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.Plugin;
 
-import static finetree.org.fineharvest.FineHarvest.noProtWarn;
 import static finetree.org.fineharvest.FineHarvest.warnNoProtection;
+import static finetree.org.fineharvest.protection.EssentialsAB.canEssentialsAntiBuild;
 import static finetree.org.fineharvest.protection.GriefDef.canGriefDefender;
 import static finetree.org.fineharvest.protection.GriefPrevention.canGriefPrev;
 import static finetree.org.fineharvest.protection.Lands.canLands;
@@ -48,6 +48,10 @@ public class BuildCheck {
         }*/
         if(hasPlugin("WorldGuard")) {
             return canWorldGuard(ply, b);
+        }
+        //Check for both, as people be silly.
+        if(hasPlugin("EssentialsAntiBuild") && hasPlugin("Essentials")){
+            return canEssentialsAntiBuild(ply, b);
         }
 
         warnNoProtection();
