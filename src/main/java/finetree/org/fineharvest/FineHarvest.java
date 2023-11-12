@@ -14,6 +14,7 @@ public final class FineHarvest extends JavaPlugin {
 
     private static FineHarvest plugin;
     public static YamlConfiguration AureliumSources;
+    public static boolean noProtWarn = false;
 
     private static String tag = "[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "] ";
 
@@ -60,6 +61,14 @@ public final class FineHarvest extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         getServer().getConsoleSender().sendMessage(tag + ChatColor.RED + "disabled");
+    }
+
+    public static void warnNoProtection() {
+        if(!noProtWarn){
+            noProtWarn = true;
+            FineHarvest.getPlugin().getServer().getConsoleSender().sendMessage( tag + ChatColor.BLUE + " faking block breaks to check build rights" );
+            FineHarvest.getPlugin().getServer().getConsoleSender().sendMessage( ChatColor.BLUE + "please install a land protection plugin!" );
+        }
     }
 
     public static FineHarvest getPlugin() {

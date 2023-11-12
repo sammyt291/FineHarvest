@@ -111,7 +111,6 @@ public class Events implements Listener  {
 
                         //AureliumSkills Compat for Farming XP
                         if(hasPlugin("AureliumSkills")){
-                            //ply.sendMessage("Got: " + AureliumSkills.getSourceRegistry().values(Skills.FARMING)[0]);
                             aureliumAddXP(ply, mat);
                         }
 
