@@ -1,4 +1,4 @@
-package finetree.org.fineharvest.skills;
+package org.finetree.fineharvest.skills;
 
 import com.gmail.nossr50.config.experience.ExperienceConfig;
 import com.gmail.nossr50.datatypes.skills.PrimarySkillType;

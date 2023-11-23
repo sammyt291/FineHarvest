@@ -1,4 +1,4 @@
-package finetree.org.fineharvest.protection;
+package org.finetree.fineharvest.protection;
 
 import me.ryanhamshire.GriefPrevention.Claim;
 import me.ryanhamshire.GriefPrevention.ClaimPermission;

@@ -1,4 +1,4 @@
-package finetree.org.fineharvest;
+package org.finetree.fineharvest;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -19,16 +19,13 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
+import org.finetree.fineharvest.skills.AureliumSkills;
+import org.finetree.fineharvest.skills.mcMMO;
 
 import java.io.File;
 import java.util.Random;
 
-import static finetree.org.fineharvest.BuildCheck.hasPlugin;
-import static finetree.org.fineharvest.Config.*;
-import static finetree.org.fineharvest.Sounds.breakSound;
-import static finetree.org.fineharvest.Sounds.popSound;
-import static finetree.org.fineharvest.skills.AureliumSkills.aureliumAddXP;
-import static finetree.org.fineharvest.skills.mcMMO.mcmmoAddXP;
+import static org.finetree.fineharvest.Config.*;
 
 
 public class Events implements Listener  {
@@ -61,7 +58,7 @@ public class Events implements Listener  {
                     Ageable age = (Ageable) clickedBlock.getBlockData();
                     if(isRipe(mat, age.getAge())) {
 
-                        popSound(clickedBlock, harvestVolume);
+                        Sounds.popSound(clickedBlock, harvestVolume);
 
                         //"Replant"
                         age.setAge(0);
@@ -73,7 +70,7 @@ public class Events implements Listener  {
                         dropSeeds(mat, clickedBlock, item);
 
                         //Delay durability damage with Unbreaking level.
-                        //Should be average random percent chance. im making it hard percent difference. Deal with it I suppose. (Might affect it by a few % either way)
+                        //Should be average random percent chance. im making it hard percent difference. Deal with it, I suppose. (Might affect it by a few % either way)
                         int unbreaking = 1;
                         if(!ignoreUnbreaking) {
                             unbreaking = item.getEnchantmentLevel(Enchantment.DURABILITY) + 1;
@@ -99,7 +96,7 @@ public class Events implements Listener  {
                             if (item.getType().getMaxDurability() <= dmg.getDamage()) {
                                 if (item.getAmount() == 1) {
                                     //Break SFX
-                                    breakSound(ply, 1);
+                                    Sounds.breakSound(ply, 1);
                                 }
                                 item.setAmount(item.getAmount() - 1);
                             }
@@ -109,13 +106,13 @@ public class Events implements Listener  {
                         item.setItemMeta(itemMeta);
 
                         //McMMO Compat for Herbalism XP
-                        if(hasPlugin("mcMMO")){
-                            mcmmoAddXP(ply, mat);
+                        if(BuildCheck.hasPlugin("mcMMO")){
+                            mcMMO.mcmmoAddXP(ply, mat);
                         }
 
                         //AureliumSkills Compat for Farming XP
-                        if(hasPlugin("AureliumSkills")){
-                            aureliumAddXP(ply, mat);
+                        if(BuildCheck.hasPlugin("AureliumSkills")){
+                            AureliumSkills.aureliumAddXP(ply, mat);
                         }
 
                     } //isRipe
@@ -226,7 +223,7 @@ public class Events implements Listener  {
         return a + random.nextInt(b - a + 1);
     }
 
-    //If AureliumSkills reloads we can regrab its config incase it changed.
+    //If AureliumSkills reloads we can re-grab its config incase it changed.
     @EventHandler
     public void aureliumEnable(PluginEnableEvent e) {
         Plugin plugin = e.getPlugin();

@@ -1,4 +1,4 @@
-package finetree.org.fineharvest.protection;
+package org.finetree.fineharvest.protection;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;

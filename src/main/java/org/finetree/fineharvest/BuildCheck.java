@@ -1,4 +1,4 @@
-package finetree.org.fineharvest;
+package org.finetree.fineharvest;
 
 //import com.bekvon.bukkit.residence.Residence;
 //import com.bekvon.bukkit.residence.containers.ResidencePlayer;
@@ -7,16 +7,16 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.plugin.Plugin;
+import org.finetree.fineharvest.protection.GriefDef;
+import org.finetree.fineharvest.protection.Plot2;
+import org.finetree.fineharvest.protection.ProtStones;
 
-import static finetree.org.fineharvest.FineHarvest.warnNoProtection;
-import static finetree.org.fineharvest.protection.EssentialsAB.canEssentialsAntiBuild;
-import static finetree.org.fineharvest.protection.GriefDef.canGriefDefender;
-import static finetree.org.fineharvest.protection.GriefPrevention.canGriefPrev;
-import static finetree.org.fineharvest.protection.Lands.canLands;
-import static finetree.org.fineharvest.protection.Plot2.canPlotSquared;
-import static finetree.org.fineharvest.protection.ProtStones.canProtectionStones;
-import static finetree.org.fineharvest.protection.Towny.canTowny;
-import static finetree.org.fineharvest.protection.WG.canWorldGuard;
+import static org.finetree.fineharvest.FineHarvest.warnNoProtection;
+import static org.finetree.fineharvest.protection.EssentialsAB.canEssentialsAntiBuild;
+import static org.finetree.fineharvest.protection.GriefPrevention.canGriefPrev;
+import static org.finetree.fineharvest.protection.Lands.canLands;
+import static org.finetree.fineharvest.protection.Towny.canTowny;
+import static org.finetree.fineharvest.protection.WG.canWorldGuard;
 import static org.bukkit.Bukkit.getServer;
 
 public class BuildCheck {
@@ -32,15 +32,15 @@ public class BuildCheck {
             return canGriefPrev(ply, b);
         }
         if(hasPlugin("ProtectionStones")){
-            if(canProtectionStones(ply, b)){//Skip protectionstones check if no region, leave it up to WG global regions.
+            if(ProtStones.canProtectionStones(ply, b)){//Skip protectionstones check if no region, leave it up to WG global regions.
                 return true;
             }
         }
         if(hasPlugin("PlotSquared")){
-            return canPlotSquared(ply, b);
+            return Plot2.canPlotSquared(ply, b);
         }
         if(hasPlugin("GriefDefender")){
-            return canGriefDefender(ply, b);
+            return GriefDef.canGriefDefender(ply, b);
         }
         /*if(hasPlugin("Residence")) {
             ResidencePlayer rPlayer = Residence.getInstance().getPlayerManager().getResidencePlayer(ply);

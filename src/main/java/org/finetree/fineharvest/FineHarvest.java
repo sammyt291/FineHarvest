@@ -1,4 +1,4 @@
-package finetree.org.fineharvest;
+package org.finetree.fineharvest;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -7,8 +7,7 @@ import redempt.redlib.config.ConfigManager;
 
 import java.io.File;
 
-import static finetree.org.fineharvest.BuildCheck.hasPlugin;
-import static finetree.org.fineharvest.UpdateChecker.isVersionGreater;
+import static org.finetree.fineharvest.UpdateChecker.isVersionGreater;
 
 public final class FineHarvest extends JavaPlugin {
 
@@ -23,11 +22,11 @@ public final class FineHarvest extends JavaPlugin {
         plugin = this;
 
         //Check for mcMMO
-        if (hasPlugin("mcMMO")) {
+        if (BuildCheck.hasPlugin("mcMMO")) {
             getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "mcMMO support enabled");
         }
         //Check for Aurelium
-        if (hasPlugin("AureliumSkills")) {
+        if (BuildCheck.hasPlugin("AureliumSkills")) {
             File file = new File("plugins/AureliumSkills/sources_config.yml");
             AureliumSources = YamlConfiguration.loadConfiguration(file);
             getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "AureliumSkills support enabled");

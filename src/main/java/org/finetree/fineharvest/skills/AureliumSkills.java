@@ -1,7 +1,7 @@
-package finetree.org.fineharvest.skills;
+package org.finetree.fineharvest.skills;
 
 import com.archyx.aureliumskills.skills.Skills;
-import finetree.org.fineharvest.FineHarvest;
+import org.finetree.fineharvest.FineHarvest;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 

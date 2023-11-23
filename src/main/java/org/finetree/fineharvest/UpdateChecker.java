@@ -1,4 +1,4 @@
-package finetree.org.fineharvest;
+package org.finetree.fineharvest;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,28 +32,22 @@ public class UpdateChecker {
         });
     }
 
-    public static boolean isVersionGreater(String versionA, String versionB) {
-        if(versionA.toLowerCase().trim().equals(versionB.toLowerCase().trim())){
-            return false;
-        }
+    public static boolean isVersionGreater(String value1, String value2) {
+        String[] parts1 = value1.split("\\.");
+        String[] parts2 = value2.split("\\.");
 
-        String[] partsA = versionA.split("\\.");
-        String[] partsB = versionB.split("\\.");
+        int length = Math.max(parts1.length, parts2.length);
+        for (int i = 0; i < length; i++) {
+            int part1 = i < parts1.length ? Integer.parseInt(parts1[i]) : 0;
+            int part2 = i < parts2.length ? Integer.parseInt(parts2[i]) : 0;
 
-        int length = Math.max(partsA.length, partsB.length)-1;
-
-        for (int i = 0; i == length; i++) {
-            int numberA = i < partsA.length ? Integer.parseInt(partsA[i]) : 0;
-            int numberB = i < partsB.length ? Integer.parseInt(partsB[i]) : 0;
-
-            if (numberA > numberB) {
+            if (part1 > part2) {
                 return true;
-            } else if (numberA < numberB) {
+            } else if (part1 < part2) {
                 return false;
             }
         }
-
-        // Return false if versions are equal or versionA is not greater than versionB
         return false;
     }
+
 }

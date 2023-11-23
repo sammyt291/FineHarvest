@@ -1,4 +1,4 @@
-package finetree.org.fineharvest.protection;
+package org.finetree.fineharvest.protection;
 
 import com.palmergames.bukkit.towny.object.TownyPermission;
 import com.palmergames.bukkit.towny.utils.PlayerCacheUtil;

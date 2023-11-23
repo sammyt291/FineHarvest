@@ -1,4 +1,4 @@
-package finetree.org.fineharvest.protection;
+package org.finetree.fineharvest.protection;
 
 import com.griefdefender.api.User;
 import org.bukkit.block.Block;

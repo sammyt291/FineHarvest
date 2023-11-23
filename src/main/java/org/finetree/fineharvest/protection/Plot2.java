@@ -1,4 +1,4 @@
-package finetree.org.fineharvest.protection;
+package org.finetree.fineharvest.protection;
 
 import com.plotsquared.core.player.PlotPlayer;
 import com.plotsquared.core.plot.Plot;

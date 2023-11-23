@@ -1,4 +1,4 @@
-package finetree.org.fineharvest.protection;
+package org.finetree.fineharvest.protection;
 
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldguard.LocalPlayer;

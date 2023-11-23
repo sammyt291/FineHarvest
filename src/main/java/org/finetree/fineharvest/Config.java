@@ -1,4 +1,4 @@
-package finetree.org.fineharvest;
+package org.finetree.fineharvest;
 
 import redempt.redlib.config.annotations.Comment;
 

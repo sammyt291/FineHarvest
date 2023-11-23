@@ -1,6 +1,6 @@
-package finetree.org.fineharvest.protection;
+package org.finetree.fineharvest.protection;
 
-import finetree.org.fineharvest.FineHarvest;
+import org.finetree.fineharvest.FineHarvest;
 import me.angeschossen.lands.api.LandsIntegration;
 import me.angeschossen.lands.api.land.LandWorld;
 import me.angeschossen.lands.api.player.LandPlayer;
