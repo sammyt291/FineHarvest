@@ -111,3 +111,26 @@ buildNumber.properties
 
 # Common working directory
 run/
+.gradle/
+/.gradle/file-system.probe
+/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+/.gradle/buildOutputCleanup/cache.properties
+/.gradle/8.4/checksums/checksums.lock
+/.gradle/8.4/dependencies-accessors/dependencies-accessors.lock
+/.gradle/8.4/executionHistory/executionHistory.bin
+/.gradle/8.4/executionHistory/executionHistory.lock
+/.gradle/8.4/fileHashes/fileHashes.bin
+/.gradle/8.4/fileHashes/fileHashes.lock
+/build/tmp/compileJava/compileTransaction/stash-dir/FineHarvest.class.uniqueId1
+/.gradle/8.4/dependencies-accessors/gc.properties
+/.gradle/8.4/gc.properties
+/.gradle/vcs-1/gc.properties
+/.gradle/8.4/fileChanges/last-build.bin
+/build/tmp/shadowJar/MANIFEST.MF
+/.gradle/8.4/checksums/md5-checksums.bin
+/.gradle/buildOutputCleanup/outputFiles.bin
+/build/resources/main/plugin.yml
+/build/tmp/compileJava/previous-compilation-data.bin
+/.gradle/8.4/fileHashes/resourceHashesCache.bin
+/.gradle/8.4/checksums/sha1-checksums.bin
+/build/tmp/compileJava/compileTransaction/stash-dir/UpdateChecker.class.uniqueId0
