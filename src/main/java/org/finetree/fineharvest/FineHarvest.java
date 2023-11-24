@@ -2,6 +2,7 @@ package org.finetree.fineharvest;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 import redempt.redlib.config.ConfigManager;
 
@@ -53,6 +54,7 @@ public final class FineHarvest extends JavaPlugin {
                 getServer().getConsoleSender().sendMessage(tag + "Up to date!");
             }
         });
+
     }
 
     @Override
@@ -76,4 +78,6 @@ public final class FineHarvest extends JavaPlugin {
     public static YamlConfiguration getAureliumSources() {
         return AureliumSources;
     }
+
+
 }

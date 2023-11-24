@@ -1,4 +1,4 @@
-name: FineHarvest
+name: '${name}'
 version: '${version}'
 main: org.finetree.fineharvest.FineHarvest
 api-version: 1.14

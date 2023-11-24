@@ -1,10 +1,10 @@
 package org.finetree.fineharvest;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import redempt.redlib.RedLib;
 
 import java.util.Random;
 
@@ -21,7 +21,7 @@ public class Sounds {
         }
 
         //If Version is 1.14.X then choose another default sound (Bees didn't exist until 1.15)
-        if(RedLib.MID_VERSION == 14){
+        if(Bukkit.getVersion().contains("1.14")){
             if( harvestSound.equals("BLOCK_BEEHIVE_EXIT") ){
                 harvestSound = "ENTITY_ITEM_PICKUP";
             }
