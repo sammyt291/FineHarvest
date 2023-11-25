@@ -56,5 +56,5 @@ jobs:
       uses: softprops/action-gh-release@v1
       with:
         tag_name: "v${{ steps.extract_version.outputs.version }}"
-        release_name: "Release v${{ steps.extract_version.outputs.version }}"
+        name: "Release v${{ steps.extract_version.outputs.version }}"
         files: build/libs/*.jar
