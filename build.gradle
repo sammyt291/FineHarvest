@@ -80,7 +80,11 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 shadowJar {
     archiveFileName = project.description + "-" + version + ".jar"
     relocate 'redempt.redlib', 'org.finetree.fineharvest.redlib'
-    //destinationDirectory = file('X:/plugins')
+
+    // Check if running in GitHub Actions
+    if (System.getenv("GITHUB_ACTIONS") == null) {
+        destinationDirectory = file('X:/plugins')
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
