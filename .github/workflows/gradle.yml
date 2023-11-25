@@ -45,7 +45,7 @@ jobs:
       uses: negz/create-tag@v1
       with:
         # Github Token
-        token: ${{secrets.SPIGOT}}
+        token: ${{secrets.GITHUB_TOKEN}}
         # Version
         version: "v${{ steps.extract_version.outputs.version }}"
         # Tag message
