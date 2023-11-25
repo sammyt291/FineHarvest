@@ -46,7 +46,7 @@ public class Events implements Listener  {
         //Check if the used item a Hoe?
         if (!isHoe(type)) { return; }
 
-        //Check we Right-Clicked?
+         //Check we Right-Clicked?
         if (!(e.getAction() == Action.RIGHT_CLICK_BLOCK)) { return; }
 
         //Check we Right-Clicked a block?
