@@ -14,7 +14,9 @@ version = '1.4.5'
 repositories {
     mavenCentral()
 
-    maven { url "https://maven.enginehub.org/repo/" }
+    maven {
+        url "https://maven.enginehub.org/repo/"
+    }
 
     maven {
         url = uri('https://hub.spigotmc.org/nexus/content/repositories/snapshots/')
