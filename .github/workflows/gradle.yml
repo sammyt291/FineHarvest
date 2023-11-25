@@ -42,7 +42,7 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git tag -a "v${{ steps.extract_version.outputs.version }}" -m "Release v${{ steps.extract_version.outputs.version }}"
-        git push https://${{ secrets.PUBBUILD }}@github.com/sammyt291/FineHarvest.git "v${{ steps.extract_version.outputs.version }}"
+        git push https://${{ secrets.SPIGOT }}@github.com/sammyt291/FineHarvest.git "v${{ steps.extract_version.outputs.version }}"
 
     - name: Create GitHub Release
       if: steps.check_tag.outputs.exists == 'false'
@@ -52,4 +52,4 @@ jobs:
         release_name: "Release v${{ steps.extract_version.outputs.version }}"
         files: build/libs/*.jar
       env:
-        GITHUB_TOKEN: ${{ secrets.PUBBUILD }}
+        GITHUB_TOKEN: ${{ secrets.SPIGOT }}
