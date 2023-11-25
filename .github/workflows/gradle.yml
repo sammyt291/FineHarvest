@@ -15,7 +15,7 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
       env:
-        GITHUB_TOKEN: ${{ secrets.SPIGOT }}
+        GITHUB_TOKEN: ${{ secrets.TEST }}
 
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
@@ -45,7 +45,7 @@ jobs:
       uses: negz/create-tag@v1
       with:
         # Github Token
-        token: ${{secrets.GITHUB_TOKEN}}
+        token: ${{secrets.TEST}}
         # Version
         version: "v${{ steps.extract_version.outputs.version }}"
         # Tag message
