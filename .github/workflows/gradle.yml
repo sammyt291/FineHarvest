@@ -47,7 +47,6 @@ jobs:
         message: ""
 
     - name: Create GitHub Release
-      if: steps.check_tag.outputs.exists == 'false'
       uses: softprops/action-gh-release@v1
       with:
         token: ${{secrets.TEST}}
