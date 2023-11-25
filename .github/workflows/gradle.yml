@@ -14,8 +14,6 @@ jobs:
       with:
         java-version: '17'
         distribution: 'adopt'
-      env:
-        GITHUB_TOKEN: ${{ secrets.TEST }}
 
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
@@ -44,17 +42,15 @@ jobs:
       # uses: negz/create-tag@39bae1e0932567a58c20dea5a1a0d18358503320
       uses: negz/create-tag@v1
       with:
-        # Github Token
         token: ${{secrets.TEST}}
-        # Version
         version: "v${{ steps.extract_version.outputs.version }}"
-        # Tag message
         message: ""
 
     - name: Create GitHub Release
       if: steps.check_tag.outputs.exists == 'false'
       uses: softprops/action-gh-release@v1
       with:
+        token: ${{secrets.TEST}}
         tag_name: "v${{ steps.extract_version.outputs.version }}"
         name: "Release v${{ steps.extract_version.outputs.version }}"
         files: build/libs/*.jar
