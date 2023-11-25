@@ -53,4 +53,4 @@ jobs:
         release_name: "Release v${{ steps.extract_version.outputs.version }}"
         files: build/libs/*.jar
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        MY_PAT: ${{ secrets.SPIGOT }}
