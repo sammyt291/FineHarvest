@@ -42,6 +42,7 @@ jobs:
       # uses: negz/create-tag@39bae1e0932567a58c20dea5a1a0d18358503320
       uses: negz/create-tag@v1
       if: steps.check_tag.outputs.exists == 'false'
+      continue-on-error: true
       with:
         token: ${{secrets.TEST}}
         version: "v${{ steps.extract_version.outputs.version }}"
