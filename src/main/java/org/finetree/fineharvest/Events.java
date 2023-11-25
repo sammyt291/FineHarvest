@@ -30,7 +30,7 @@ import static org.finetree.fineharvest.Config.*;
 
 public class Events implements Listener  {
     @EventHandler(priority= EventPriority.HIGH)
-    public void use(PlayerInteractEvent e) {
+    public void onUse(PlayerInteractEvent e) {
 
         //Using permission and player doesn't have it, just do nothing.
         Player ply = e.getPlayer();
@@ -40,86 +40,89 @@ public class Events implements Listener  {
 
         //Get the item in hand
         ItemStack item = e.getItem();
-        if(item == null){return;}
+        if(item == null){ return; }
         Material type = item.getType();
 
-        if (isHoe(type)) {
+        //Check if the used item a Hoe?
+        if (!isHoe(type)) { return; }
 
-            if (e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                Block clickedBlock = e.getClickedBlock();
-                if(clickedBlock == null){return;}
+        //Check we Right-Clicked?
+        if (!(e.getAction() == Action.RIGHT_CLICK_BLOCK)) { return; }
 
-                Material mat = clickedBlock.getType();
-                if (isCrop(mat)) {
+        //Check we Right-Clicked a block?
+        Block clickedBlock = e.getClickedBlock();
+        if(clickedBlock == null){ return; }
 
-                    //Check supported plugins if we can build here
-                    if(!BuildCheck.canBuild(ply, clickedBlock)){return;}
+        //Check supported plugins if we can build here
+        if(!BuildCheck.canBuild(ply, clickedBlock)){ return; }
 
-                    Ageable age = (Ageable) clickedBlock.getBlockData();
-                    if(isRipe(mat, age.getAge())) {
+        //Check it a crop we clicked?
+        Material mat = clickedBlock.getType();
+        if (!isCrop(mat)) { return; }
 
-                        Sounds.popSound(clickedBlock, harvestVolume);
+        //Check the crop is ripe
+        Ageable age = (Ageable) clickedBlock.getBlockData();
+        if(!isRipe(mat, age.getAge())) { return; }
 
-                        //"Replant"
-                        age.setAge(0);
-                        clickedBlock.setBlockData(age);
+        Sounds.popSound(clickedBlock, harvestVolume);
 
-                        //Drop harvest items
-                        ItemMeta itemMeta = item.getItemMeta();
-                        if(itemMeta == null){return;}
-                        dropSeeds(mat, clickedBlock, item);
+        //"Replant" the crop
+        age.setAge(0);
+        clickedBlock.setBlockData(age);
 
-                        //Delay durability damage with Unbreaking level.
-                        //Should be average random percent chance. im making it hard percent difference. Deal with it, I suppose. (Might affect it by a few % either way)
-                        int unbreaking = 1;
-                        if(!ignoreUnbreaking) {
-                            unbreaking = item.getEnchantmentLevel(Enchantment.DURABILITY) + 1;
-                        }
+        //Drop harvested items
+        ItemMeta itemMeta = item.getItemMeta();
+        if(itemMeta == null){return;}
+        dropSeeds(mat, clickedBlock, item);
 
-                        //Count harvests
-                        PersistentDataContainer data = itemMeta.getPersistentDataContainer();
-                        NamespacedKey countKey = new NamespacedKey(FineHarvest.getPlugin(), "harvestCount");
+        //Delay durability damage with Unbreaking level.
+        //Should be average random percent chance. im making it hard percent difference. Deal with it, I suppose. (Might affect it by a few % either way)
+        int unbreaking = 1;
+        if(!ignoreUnbreaking) {
+            unbreaking = item.getEnchantmentLevel(Enchantment.DURABILITY) + 1;
+        }
 
-                        Integer current = data.getOrDefault(countKey, PersistentDataType.INTEGER, 0);
-                        int next = current + 1;
-                        //ply.sendMessage("Count: " + next);
-                        if (next >= (usesPerDurability * unbreaking)) {
-                            next = 0;
+        //Count harvests
+        PersistentDataContainer data = itemMeta.getPersistentDataContainer();
+        NamespacedKey countKey = new NamespacedKey(FineHarvest.getPlugin(), "harvestCount");
 
-                            //Use durability
-                            Damageable dmg = (Damageable) itemMeta;
-                            if (dmg == null) {
-                                return;
-                            }
-                            dmg.setDamage(dmg.getDamage() + decrementDurabilityBy);
-                            item.setItemMeta(dmg);
-                            if (item.getType().getMaxDurability() <= dmg.getDamage()) {
-                                if (item.getAmount() == 1) {
-                                    //Break SFX
-                                    Sounds.breakSound(ply, 1);
-                                }
-                                item.setAmount(item.getAmount() - 1);
-                            }
-                        }//enough harvests to tick durability ?
+        Integer current = data.getOrDefault(countKey, PersistentDataType.INTEGER, 0);
+        int next = current + 1;
 
-                        data.set(countKey, PersistentDataType.INTEGER, next);
-                        item.setItemMeta(itemMeta);
+        //Check enough harvests to tick durability ?
+        if (next >= (usesPerDurability * unbreaking)) {
+            next = 0;
 
-                        //McMMO Compat for Herbalism XP
-                        if(BuildCheck.hasPlugin("mcMMO")){
-                            mcMMO.mcmmoAddXP(ply, mat);
-                        }
+            //Set used durability
+            Damageable dmg = (Damageable) itemMeta;
+            dmg.setDamage(dmg.getDamage() + decrementDurabilityBy);
+            item.setItemMeta(dmg);
 
-                        //AureliumSkills Compat for Farming XP
-                        if(BuildCheck.hasPlugin("AureliumSkills")){
-                            AureliumSkills.aureliumAddXP(ply, mat);
-                        }
+            //Check if we broke it?
+            if (item.getType().getMaxDurability() <= dmg.getDamage()) {
+                if (item.getAmount() == 1) {
+                    //Break SFX
+                    Sounds.breakSound(ply, 1);
+                }
+                item.setAmount(item.getAmount() - 1);
+            }
+        }
 
-                    } //isRipe
-                } //isCrop
-            } //isBlock & RClick
-        } //isHoe
-    } //playerInteract
+        //Set harvest count and new durability
+        data.set(countKey, PersistentDataType.INTEGER, next);
+        item.setItemMeta(itemMeta);
+
+        //API McMMO Compat for Herbalism XP
+        if(BuildCheck.hasPlugin("mcMMO")){
+            mcMMO.mcmmoAddXP(ply, mat);
+        }
+
+        //API AureliumSkills Compat for Farming XP
+        if(BuildCheck.hasPlugin("AureliumSkills")){
+            AureliumSkills.aureliumAddXP(ply, mat);
+        }
+
+    } //onUse
 
     private boolean isHoe(Material material) {
         switch (material) {
