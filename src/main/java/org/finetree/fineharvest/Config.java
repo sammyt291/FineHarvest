@@ -65,6 +65,21 @@ public class Config {
     public static float harvestVariance = 0.5F;
 
     @Comment("")
+    @Comment("=======================")
+    @Comment("=== COMPAT SETTINGS ===")
+    @Comment("=======================")
+
+    @Comment("")
+    @Comment("Enable AureliumSkills support?")
+    @Comment("Default: true")
+    public static boolean aureliumSkillsSupport = true;
+
+    @Comment("")
+    @Comment("Enable mcMMO support?")
+    @Comment("Default: true")
+    public static boolean mcMMOSupport = true;
+
+    @Comment("")
     @Comment("=====================")
     @Comment("=== DROP SETTINGS ===")
     @Comment("=====================")

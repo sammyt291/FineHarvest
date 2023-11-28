@@ -2,12 +2,15 @@ package org.finetree.fineharvest;
 
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 import redempt.redlib.config.ConfigManager;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
+import static org.finetree.fineharvest.Config.aureliumSkillsSupport;
+import static org.finetree.fineharvest.Config.mcMMOSupport;
 import static org.finetree.fineharvest.UpdateChecker.isVersionGreater;
 
 public final class FineHarvest extends JavaPlugin {
@@ -17,21 +20,16 @@ public final class FineHarvest extends JavaPlugin {
 
     public static String tag = "[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "] ";
 
+    // Lookup table for skill plugins
+    public static Map<String, Boolean> skillMods = new HashMap<>() {{
+        put("mcMMO", false);
+        put("AureliumSkills", false);
+    }};
+
     @Override
     public void onEnable() {
         //Initialize plugin getter
         plugin = this;
-
-        //Check for mcMMO
-        if (BuildCheck.hasPlugin("mcMMO")) {
-            getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "mcMMO support enabled");
-        }
-        //Check for Aurelium
-        if (BuildCheck.hasPlugin("AureliumSkills")) {
-            File file = new File("plugins/AureliumSkills/sources_config.yml");
-            AureliumSources = YamlConfiguration.loadConfiguration(file);
-            getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "AureliumSkills support enabled");
-        }
 
         //Initialize Config
         ConfigManager config = ConfigManager.create(this);
@@ -42,6 +40,28 @@ public final class FineHarvest extends JavaPlugin {
 
         //event listener
         getServer().getPluginManager().registerEvents(new Events(), this);
+
+        //Check for mcMMO
+        if (BuildCheck.hasPlugin("mcMMO")) {
+            skillMods.put("mcMMO", true);
+            if(mcMMOSupport) {
+                getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "mcMMO support enabled");
+            }else{
+                getServer().getConsoleSender().sendMessage(tag + "Ignoring mcMMO as it was disabled by config!");
+            }
+        }
+        //Check for Aurelium
+        if (BuildCheck.hasPlugin("AureliumSkills")) {
+            skillMods.put("AureliumSkills", true);
+            if(aureliumSkillsSupport) {
+                getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "AureliumSkills support enabled");
+            }else{
+                getServer().getConsoleSender().sendMessage(tag + "Ignoring AureliumSkills as it was disabled by config!");
+            }
+
+            File file = new File("plugins/AureliumSkills/sources_config.yml");
+            AureliumSources = YamlConfiguration.loadConfiguration(file);
+        }
 
         //bStats init
         Metrics metrics = new Metrics(this, 20222);
@@ -54,7 +74,6 @@ public final class FineHarvest extends JavaPlugin {
                 getServer().getConsoleSender().sendMessage(tag + "Up to date!");
             }
         });
-
     }
 
     @Override
@@ -67,8 +86,8 @@ public final class FineHarvest extends JavaPlugin {
     public static void warnNoProtection() {
         if(!noProtWarn){
             noProtWarn = true;
-            FineHarvest.getPlugin().getServer().getConsoleSender().sendMessage( tag + ChatColor.BLUE + " faking block breaks to check build rights" );
-            FineHarvest.getPlugin().getServer().getConsoleSender().sendMessage( ChatColor.BLUE + "please install a land protection plugin!" );
+            plugin.getServer().getConsoleSender().sendMessage( tag + ChatColor.BLUE + " faking block breaks to check build rights" );
+            plugin.getServer().getConsoleSender().sendMessage( ChatColor.BLUE + "please install a land protection plugin!" );
         }
     }
 

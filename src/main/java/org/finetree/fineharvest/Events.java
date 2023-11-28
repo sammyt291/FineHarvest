@@ -1,5 +1,6 @@
 package org.finetree.fineharvest;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
@@ -12,6 +13,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.server.PluginDisableEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
@@ -26,6 +28,8 @@ import java.io.File;
 import java.util.Random;
 
 import static org.finetree.fineharvest.Config.*;
+import static org.finetree.fineharvest.FineHarvest.skillMods;
+import static org.finetree.fineharvest.FineHarvest.tag;
 
 
 public class Events implements Listener  {
@@ -113,12 +117,12 @@ public class Events implements Listener  {
         item.setItemMeta(itemMeta);
 
         //API McMMO Compat for Herbalism XP
-        if(BuildCheck.hasPlugin("mcMMO")){
+        if(mcMMOSupport && skillMods.getOrDefault("mcMMO", false)){
             mcMMO.mcmmoAddXP(ply, mat);
         }
 
         //API AureliumSkills Compat for Farming XP
-        if(BuildCheck.hasPlugin("AureliumSkills")){
+        if(aureliumSkillsSupport && skillMods.getOrDefault("AureliumSkills", false)){
             AureliumSkills.aureliumAddXP(ply, mat);
         }
 
@@ -228,12 +232,42 @@ public class Events implements Listener  {
 
     //If AureliumSkills reloads we can re-grab its config incase it changed.
     @EventHandler
-    public void aureliumEnable(PluginEnableEvent e) {
+    public void plugEnable(PluginEnableEvent e) {
         Plugin plugin = e.getPlugin();
-        if( plugin.getDescription().getName().equals("AureliumSkills") ){
-            FineHarvest.getPlugin().getServer().getConsoleSender().sendMessage(FineHarvest.tag + "Reloading Aurelium XP Values.");
-            File file = new File("plugins/AureliumSkills/sources_config.yml");
-            FineHarvest.AureliumSources = YamlConfiguration.loadConfiguration(file);
+        switch( plugin.getDescription().getName() ){
+            case "AureliumSkills":
+                if(!aureliumSkillsSupport){ break; }
+                skillMods.put( "AureliumSkills", true );
+                plugin.getServer().getConsoleSender().sendMessage( tag
+                        + ChatColor.GREEN + "AureliumSkills support enabled"
+                        + ChatColor.RESET + " - Reloading Aurelium XP Values." );
+                File file = new File("plugins/AureliumSkills/sources_config.yml");
+                FineHarvest.AureliumSources = YamlConfiguration.loadConfiguration(file);
+                break;
+            case "mcMMO":
+                if(!mcMMOSupport){ break; }
+                skillMods.put( "mcMMO", true );
+                plugin.getServer().getConsoleSender().sendMessage( tag
+                        + ChatColor.GREEN + "mcMMO support enabled" );
+                break;
+        }
+    }
+    @EventHandler
+    public void plugDisable(PluginDisableEvent e) {
+        Plugin plugin = e.getPlugin();
+        switch( plugin.getDescription().getName() ){
+            case "AureliumSkills":
+                if(!aureliumSkillsSupport){ break; }
+                skillMods.put( "AureliumSkills", false );
+                plugin.getServer().getConsoleSender().sendMessage( tag
+                        + ChatColor.RED + "AureliumSkills support disabled" );
+                break;
+            case "mcMMO":
+                if(!mcMMOSupport){ break; }
+                skillMods.put( "mcMMO", false );
+                plugin.getServer().getConsoleSender().sendMessage( tag
+                        + ChatColor.RED + "mcMMO support disabled" );
+                break;
         }
     }
 }

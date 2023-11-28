@@ -9,13 +9,13 @@ plugins {
 
 description = 'FineHarvest'
 group = 'finetree.org'
-version = '1.4.5'
+version = '1.4.6'
 
 repositories {
     mavenCentral()
 
     maven {
-        url "https://maven.enginehub.org/repo/"
+        url = uri("https://maven.enginehub.org/repo/")
     }
 
     maven {
@@ -62,7 +62,7 @@ repositories {
 dependencies {
     implementation 'com.github.Redempt:RedLib:6.5.2.1'
     compileOnly 'org.spigotmc:spigot-api:1.20.2-R0.1-SNAPSHOT'
-    compileOnly 'com.gmail.nossr50.mcMMO:mcMMO:2.1.225'
+    compileOnly 'com.gmail.nossr50.mcMMO:mcMMO:2.1.225' exclude group: 'commons-io'
     compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.3.23'
     compileOnly 'com.github.TechFortress:GriefPrevention:16.18'
     compileOnly 'com.github.TownyAdvanced:towny:0.100.0.0'
