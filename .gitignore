@@ -117,3 +117,11 @@ run/
 /build/resources/main/plugin.yml
 /build/tmp/compileJava/previous-compilation-data.bin
 /build/tmp/compileJava/compileTransaction/stash-dir/UpdateChecker.class.uniqueId0
+.classpath
+.project
+.settings/org.eclipse.buildship.core.prefs
+build/tmp/jar/MANIFEST.MF
+build/tmp/compileJava/compileTransaction/stash-dir/Events$1.class.uniqueId3
+build/tmp/compileJava/compileTransaction/stash-dir/Events.class.uniqueId1
+build/tmp/compileJava/compileTransaction/stash-dir/FineHarvest$1.class.uniqueId2
+build/tmp/compileJava/compileTransaction/stash-dir/FineHarvest.class.uniqueId0
