@@ -65,7 +65,7 @@ dependencies {
     compileOnly 'com.gmail.nossr50.mcMMO:mcMMO:2.1.225' exclude group: 'commons-io'
     compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.3.23'
     compileOnly 'com.github.TechFortress:GriefPrevention:16.18'
-    compileOnly 'com.github.TownyAdvanced:towny:0.100.0.0'
+    compileOnly 'com.github.TownyAdvanced:Towny:0.100.3.13'
     compileOnly 'com.github.angeschossen:LandsAPI:6.37.0'
     compileOnly 'dev.espi:protectionstones:2.10.2'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.7'
