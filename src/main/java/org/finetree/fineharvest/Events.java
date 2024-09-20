@@ -171,13 +171,14 @@ public class Events implements Listener  {
     }
 
     private void dropSeeds(Material mat, Block blk, ItemStack hoe) {
+
         //Add fortune level to max drop.
         int fortune = 0;
         if(!ignoreFortune) {
             fortune = hoe.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
         }
 
-        ItemStack drops = new ItemStack(Material.WHEAT_SEEDS, rand(minWheatSeeds,maxWheatSeeds + fortune));
+        ItemStack drops = new ItemStack(Material.WHEAT_SEEDS, rand(Math.max(1, minWheatSeeds),maxWheatSeeds + fortune));
         ItemStack harvest = new ItemStack(Material.WHEAT, rand(minWheat, maxWheat));
 
         switch (mat) {
