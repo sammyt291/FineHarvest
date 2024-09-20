@@ -162,7 +162,7 @@ public class Events implements Listener  {
             case POTATOES:
                 return age == 7;
             case BEETROOTS:
-                return age == 4;
+                return age == 3;
             case NETHER_WART:
                 return age == 3;
             default:
