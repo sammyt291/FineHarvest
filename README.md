@@ -13,4 +13,4 @@ Has options for drop rates, sounds, durability mechanics, and more!
 Extremely configurable with many options in the config.yml
 
 *Just pop the jar file in your plugins folder and /reload or preferably restart the server
-**Zero setup required, no settings, no hassle.***
+**Zero setup required, no settings, no hassle.*** 
