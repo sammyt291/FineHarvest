@@ -66,7 +66,7 @@ public class Events implements Listener  {
 
         //Check the crop is ripe
         Ageable age = (Ageable) clickedBlock.getBlockData();
-        if(!isRipe(mat, age.getAge())) { return; }
+        if(!isSniffer(mat) && !isRipe(mat, age.getAge())) { return; }
 
         Sounds.popSound(clickedBlock, harvestVolume);
 
@@ -154,6 +154,13 @@ public class Events implements Listener  {
             case WHEAT, CARROTS, POTATOES -> age == 7;
             case BEETROOTS -> age == 3;
             case NETHER_WART -> age == 3;
+            default -> false;
+        };
+    }
+
+    private boolean isSniffer(Material material) {
+        return switch(material) {
+            case PITCHER_CROP, TORCHFLOWER_CROP -> true;
             default -> false;
         };
     }
