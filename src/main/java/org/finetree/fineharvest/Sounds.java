@@ -30,6 +30,14 @@ public class Sounds {
         w.playSound(b.getLocation(), Sound.valueOf(harvestSound), mul, harvestPitch + pitchAdj);
     }
 
+    /**
+     * Plays the item break sound effect at the player's location.
+     * <p>
+     * This method is called when a tool breaks
+     *
+     * @param p   The player at whose location the sound will be played.
+     * @param mul The volume multiplier for the sound effect.
+     */
     public static void breakSound(Player p, float mul){
         World w = p.getLocation().getWorld();
         if(w == null){return;}
