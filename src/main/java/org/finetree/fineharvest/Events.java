@@ -3,6 +3,7 @@ package org.finetree.fineharvest;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Statistic;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -126,20 +127,17 @@ public class Events implements Listener  {
             AureliumSkills.aureliumAddXP(ply, mat);
         }
 
+        // For reference, type is our tool material, mat is the crop material
+        ply.incrementStatistic(Statistic.USE_ITEM, type, 1);
+        ply.incrementStatistic(Statistic.MINE_BLOCK,mat, 1);
+
     } //onUse
 
     private boolean isHoe(Material material) {
-        switch (material) {
-            case WOODEN_HOE:
-            case STONE_HOE:
-            case IRON_HOE:
-            case GOLDEN_HOE:
-            case DIAMOND_HOE:
-            case NETHERITE_HOE:
-                return true;
-            default:
-                return false;
-        }
+        return switch (material) {
+            case WOODEN_HOE, STONE_HOE, IRON_HOE, GOLDEN_HOE, DIAMOND_HOE, NETHERITE_HOE -> true;
+            default -> false;
+        };
     }
 
     private boolean isCrop(Material material) {
