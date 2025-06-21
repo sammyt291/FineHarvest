@@ -149,6 +149,8 @@ public class Events implements Listener  {
             case POTATOES:
             case BEETROOTS:
             case NETHER_WART:
+            case TORCHFLOWER:
+            case PITCHER_PLANT:
                 return true;
             default:
                 return false;
