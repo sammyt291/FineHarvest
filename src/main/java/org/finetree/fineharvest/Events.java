@@ -66,7 +66,7 @@ public class Events implements Listener  {
 
         //Check the crop is ripe
         Ageable age = (Ageable) clickedBlock.getBlockData();
-        if(!isRipe(mat, age.getAge())) { return; }
+        if(!isSniffer(mat) && !isRipe(mat, age.getAge())) { return; }
 
         Sounds.popSound(clickedBlock, harvestVolume);
 
@@ -143,31 +143,26 @@ public class Events implements Listener  {
     }
 
     private boolean isCrop(Material material) {
-        switch (material) {
-            case WHEAT:
-            case CARROTS:
-            case POTATOES:
-            case BEETROOTS:
-            case NETHER_WART:
-                return true;
-            default:
-                return false;
-        }
+        return switch (material) {
+            case WHEAT, CARROTS, POTATOES, BEETROOTS, NETHER_WART, TORCHFLOWER_CROP, PITCHER_CROP -> true;
+            default -> false;
+        };
     }
 
     private boolean isRipe(Material material, int age) {
-        switch (material) {
-            case WHEAT:
-            case CARROTS:
-            case POTATOES:
-                return age == 7;
-            case BEETROOTS:
-                return age == 3;
-            case NETHER_WART:
-                return age == 3;
-            default:
-                return false;
-        }
+        return switch (material) {
+            case WHEAT, CARROTS, POTATOES -> age == 7;
+            case BEETROOTS -> age == 3;
+            case NETHER_WART -> age == 3;
+            default -> false;
+        };
+    }
+
+    private boolean isSniffer(Material material) {
+        return switch(material) {
+            case PITCHER_CROP, TORCHFLOWER_CROP -> true;
+            default -> false;
+        };
     }
 
     private void dropSeeds(Material mat, Block blk, ItemStack hoe) {
@@ -219,6 +214,20 @@ public class Events implements Listener  {
             case NETHER_WART:
                 drops.setType(Material.NETHER_WART);
                 drops.setAmount(rand(minNetherWart, maxNetherWart + fortune));
+                if(drops.getAmount() > 0) {
+                    blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
+                }
+                break;
+            case PITCHER_CROP:
+                drops.setType(Material.PITCHER_PLANT);
+                drops.setAmount(1);
+                if(drops.getAmount() > 0) {
+                    blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
+                }
+                break;
+            case TORCHFLOWER_CROP:
+                drops.setType(Material.TORCHFLOWER);
+                drops.setAmount(1);
                 if(drops.getAmount() > 0) {
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
                 }
