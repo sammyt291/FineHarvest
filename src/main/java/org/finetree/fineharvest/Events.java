@@ -143,33 +143,19 @@ public class Events implements Listener  {
     }
 
     private boolean isCrop(Material material) {
-        switch (material) {
-            case WHEAT:
-            case CARROTS:
-            case POTATOES:
-            case BEETROOTS:
-            case NETHER_WART:
-            case TORCHFLOWER:
-            case PITCHER_PLANT:
-                return true;
-            default:
-                return false;
-        }
+        return switch (material) {
+            case WHEAT, CARROTS, POTATOES, BEETROOTS, NETHER_WART, TORCHFLOWER_CROP, PITCHER_CROP -> true;
+            default -> false;
+        };
     }
 
     private boolean isRipe(Material material, int age) {
-        switch (material) {
-            case WHEAT:
-            case CARROTS:
-            case POTATOES:
-                return age == 7;
-            case BEETROOTS:
-                return age == 3;
-            case NETHER_WART:
-                return age == 3;
-            default:
-                return false;
-        }
+        return switch (material) {
+            case WHEAT, CARROTS, POTATOES -> age == 7;
+            case BEETROOTS -> age == 3;
+            case NETHER_WART -> age == 3;
+            default -> false;
+        };
     }
 
     private void dropSeeds(Material mat, Block blk, ItemStack hoe) {
