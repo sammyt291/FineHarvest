@@ -129,7 +129,8 @@ public class Events implements Listener  {
 
         // For reference, type is our tool material, mat is the crop material
         ply.incrementStatistic(Statistic.USE_ITEM, type, 1);
-        ply.incrementStatistic(Statistic.MINE_BLOCK,mat, 1);
+        ply.incrementStatistic(Statistic.MINE_BLOCK, mat, 1);
+        ply.incrementStatistic(Statistic.USE_ITEM,mat, 1);
 
     } //onUse
 
