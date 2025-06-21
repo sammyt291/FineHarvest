@@ -8,8 +8,8 @@ plugins {
 }
 
 description = 'FineHarvest'
-group = 'finetree.org'
-version = '1.5.0'
+group = "${group}"
+version = "${version}"
 
 repositories {
     mavenCentral()
