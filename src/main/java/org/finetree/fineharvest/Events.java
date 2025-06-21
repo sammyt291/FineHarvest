@@ -211,6 +211,20 @@ public class Events implements Listener  {
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
                 }
                 break;
+            case PITCHER_CROP:
+                drops.setType(Material.PITCHER_PLANT);
+                drops.setAmount(1);
+                if(drops.getAmount() > 0) {
+                    blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
+                }
+                break;
+            case TORCHFLOWER_CROP:
+                drops.setType(Material.TORCHFLOWER);
+                drops.setAmount(1);
+                if(drops.getAmount() > 0) {
+                    blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
+                }
+                break;
         }
     }
 
