@@ -18,15 +18,15 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x ./gradlew
 
-    - name: Build with Gradle
-      run: ./gradlew shadowJar
-
     - name: Extract version from build.gradle
       id: extract_version
       run: |
         VERSION=$(grep '^version ' build.gradle | awk '{print $3}' | tr -d "'")
         echo "Extracted version is $VERSION"
         echo "::set-output name=version::$VERSION"
+        
+    - name: Build with Gradle
+      run: ./gradlew shadowJar -Pversion=${{ steps.extract_version.outputs.version }}
 
     - name: Check if Tag Exists
       id: check_tag
