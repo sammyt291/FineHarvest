@@ -9,7 +9,7 @@ plugins {
 
 description = 'FineHarvest'
 group = "${group}"
-version = project.findProperty("version")?.toString() ?: "0.0.0"
+version = "$(version)"
 
 repositories {
     mavenCentral()
