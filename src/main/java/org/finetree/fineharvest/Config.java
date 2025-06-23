@@ -41,8 +41,8 @@ public class Config {
 
     @Comment("")
     @Comment("What sound should harvesting make?")
-    @Comment("Default: BLOCK_BEEHIVE_EXIT")
-    public static String harvestSound = "BLOCK_BEEHIVE_EXIT";
+    @Comment("Default: BLOCK_CROP_BREAK")
+    public static String harvestSound = "BLOCK_CROP_BREAK";
 
     @Comment("")
     @Comment("How loud should the harvest sound be?")
