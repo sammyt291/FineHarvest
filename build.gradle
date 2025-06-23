@@ -9,7 +9,7 @@ plugins {
 
 description = 'FineHarvest'
 group = "${group}"
-version = "$(version)"
+version = '${version}'
 
 repositories {
     mavenCentral()
