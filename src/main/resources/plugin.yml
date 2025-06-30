@@ -1,7 +1,7 @@
 name: '${name}'
 version: '${version}'
 main: org.finetree.fineharvest.FineHarvest
-api-version: 1.14
+api-version: 1.21
 authors: [ Steampunk_Sam ]
 description: Allows auto-plant harvesting with Hoes
 website: finetree.org
