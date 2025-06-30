@@ -61,7 +61,7 @@ public class Events implements Listener  {
         //Check supported plugins if we can build here
         if(!BuildCheck.canBuild(ply, clickedBlock)){ return; }
 
-        //Check it a crop we clicked?
+        //Check its a crop we clicked?
         Material mat = clickedBlock.getType();
         if (!isCrop(mat)) { return; }
 
@@ -185,7 +185,7 @@ public class Events implements Listener  {
                 }
                 break;
             case CARROTS:
-                drops.setType(Material.CARROT);
+                drops.setType(Material.CARROTS);
                 drops.setAmount(rand(minCarrots, maxCarrots + fortune));
                 if(drops.getAmount() > 0) {
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
