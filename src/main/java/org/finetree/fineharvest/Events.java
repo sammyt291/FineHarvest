@@ -84,7 +84,7 @@ public class Events implements Listener  {
         //Should be average random percent chance. im making it hard percent difference. Deal with it, I suppose. (Might affect it by a few % either way)
         int unbreaking = 1;
         if(!ignoreUnbreaking) {
-            unbreaking = item.getEnchantmentLevel(Enchantment.DURABILITY) + 1;
+            unbreaking = item.getEnchantmentLevel(Enchantment.UNBREAKING) + 1;
         }
 
         //Count harvests
@@ -169,7 +169,7 @@ public class Events implements Listener  {
         //Add fortune level to max drop.
         int fortune = 0;
         if(!ignoreFortune) {
-            fortune = hoe.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
+            fortune = hoe.getEnchantmentLevel(Enchantment.FORTUNE);
         }
 
         ItemStack drops = new ItemStack(Material.WHEAT_SEEDS, rand(Math.max(1, minWheatSeeds),maxWheatSeeds + fortune));
