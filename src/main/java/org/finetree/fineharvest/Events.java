@@ -1,9 +1,6 @@
 package org.finetree.fineharvest;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Statistic;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -130,7 +127,6 @@ public class Events implements Listener  {
         // For reference, type is our tool material, mat is the crop material
         ply.incrementStatistic(Statistic.USE_ITEM, type, 1);
         ply.incrementStatistic(Statistic.MINE_BLOCK, mat, 1);
-        ply.incrementStatistic(Statistic.USE_ITEM,mat, 1);
 
     } //onUse
 
@@ -185,7 +181,7 @@ public class Events implements Listener  {
                 }
                 break;
             case CARROTS:
-                drops.setType(Material.CARROTS);
+                drops.setType(Material.CARROT);
                 drops.setAmount(rand(minCarrots, maxCarrots + fortune));
                 if(drops.getAmount() > 0) {
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
