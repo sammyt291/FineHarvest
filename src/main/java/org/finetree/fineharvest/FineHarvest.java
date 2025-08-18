@@ -9,21 +9,20 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.finetree.fineharvest.Config.aureliumSkillsSupport;
-import static org.finetree.fineharvest.Config.mcMMOSupport;
+import static org.finetree.fineharvest.Config.*;
 import static org.finetree.fineharvest.UpdateChecker.isVersionGreater;
 
 public final class FineHarvest extends JavaPlugin {
 
     private static FineHarvest plugin;
-    public static YamlConfiguration AureliumSources;
+    public static YamlConfiguration AuraSources;
 
     public static String tag = "[" + ChatColor.GOLD + "Fine" + ChatColor.DARK_GREEN + "Harvest" + ChatColor.RESET + "] ";
 
     // Lookup table for skill plugins
     public static Map<String, Boolean> skillMods = new HashMap<>() {{
         put("mcMMO", false);
-        put("AureliumSkills", false);
+        put("AuraSkills", false);
     }};
 
     @Override
@@ -50,17 +49,17 @@ public final class FineHarvest extends JavaPlugin {
                 getServer().getConsoleSender().sendMessage(tag + "Ignoring mcMMO as it was disabled by config!");
             }
         }
-        //Check for Aurelium
-        if (BuildCheck.hasPlugin("AureliumSkills")) {
-            skillMods.put("AureliumSkills", true);
+        //Check for AuraSkills
+        if (BuildCheck.hasPlugin("AuraSkills")) {
+            skillMods.put("AuraSkills", true);
             if(aureliumSkillsSupport) {
-                getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "AureliumSkills support enabled");
+                getServer().getConsoleSender().sendMessage(tag + ChatColor.GREEN + "AuraSkills support enabled");
             }else{
-                getServer().getConsoleSender().sendMessage(tag + "Ignoring AureliumSkills as it was disabled by config!");
+                getServer().getConsoleSender().sendMessage(tag + "Ignoring AuraSkills as it was disabled by config!");
             }
 
-            File file = new File("plugins/AureliumSkills/sources_config.yml");
-            AureliumSources = YamlConfiguration.loadConfiguration(file);
+            File file = new File("plugins/AuraSkills/sources/farming.yml");
+            AuraSources = YamlConfiguration.loadConfiguration(file);
         }
 
         //bStats init
@@ -94,8 +93,8 @@ public final class FineHarvest extends JavaPlugin {
     public static FineHarvest getPlugin() {
         return plugin;
     }
-    public static YamlConfiguration getAureliumSources() {
-        return AureliumSources;
+    public static YamlConfiguration getAuraSources() {
+        return AuraSources;
     }
 
 

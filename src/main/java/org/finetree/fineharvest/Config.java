@@ -70,7 +70,7 @@ public class Config {
     @Comment("=======================")
 
     @Comment("")
-    @Comment("Enable AureliumSkills support?")
+    @Comment("Enable AureliumSkills/AuraSkills support?")
     @Comment("Default: true")
     public static boolean aureliumSkillsSupport = true;
 
