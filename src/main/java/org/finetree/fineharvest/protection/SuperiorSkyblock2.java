@@ -12,7 +12,10 @@ public class SuperiorSkyblock2 {
         SuperiorPlayer sp = SuperiorSkyblockAPI.getPlayer(ply.getUniqueId());
         Island island = SuperiorSkyblockAPI.getIslandAt(b.getLocation());
         //ply.sendMessage("SuperiorSkyBlock2 Allowed");
-        return island.isMember(sp) || sp.hasBypassModeEnabled();
+        if (sp != null && island != null) {
+            return island.isMember(sp) || sp.hasBypassModeEnabled();
+        }
+        return false;
     }
 
 }

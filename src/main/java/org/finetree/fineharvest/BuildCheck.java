@@ -44,7 +44,9 @@ public class BuildCheck {
             return GriefDef.canGriefDefender(ply, b);
         }
         if (hasPlugin("SuperiorSkyblock2")) {
-            return SuperiorSkyblock2.canSuperiorSkyblock2(ply, b);
+            if (SuperiorSkyblock2.canSuperiorSkyblock2(ply, b)) {//Skip SuperSkyblock2 check if no island, leave it up to WG global regions.
+                return true;
+            }
         }
         /*if(hasPlugin("Residence")) {
             ResidencePlayer rPlayer = Residence.getInstance().getPlayerManager().getResidencePlayer(ply);
