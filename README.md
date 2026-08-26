@@ -5,6 +5,9 @@ Auto replants harvested crops.
 
 Has options for drop rates, sounds, durability mechanics, and more!
 
+FineHarvest also integrates with Quests so right-click crop harvests progress
+farming quest objectives just like normal crop breaks.
+
 *Works on all 1.14+ versions out of the box!*
 
 ![image](https://github.com/sammyt291/FineHarvest/assets/5092626/bf70fa35-1a1f-402b-834f-ce75c6709f9f)

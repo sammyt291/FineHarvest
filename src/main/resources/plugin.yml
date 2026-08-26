@@ -6,7 +6,7 @@ folia-supported: true
 authors: [ Steampunk_Sam ]
 description: Allows auto-plant harvesting with Hoes
 website: finetree.org
-softdepend: [ mcMMO, AuraSkills, GriefPrevention, Lands, WorldGuard, Towny, ProtectionStones, PlotSquared, GriefDefender, EssentialsAntiBuild, Essentials, SuperiorSkyBlock2 ]
+softdepend: [ mcMMO, AuraSkills, Quests, GriefPrevention, Lands, WorldGuard, Towny, ProtectionStones, PlotSquared, GriefDefender, EssentialsAntiBuild, Essentials, SuperiorSkyBlock2 ]
 permissions:
   fineharvest.use:
     description: Allows use of FineHarvest

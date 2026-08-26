@@ -19,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
+import org.finetree.fineharvest.quests.Quests;
 import org.finetree.fineharvest.skills.AureliumSkills;
 import org.finetree.fineharvest.skills.mcMMO;
 
@@ -84,9 +85,6 @@ public class Events implements Listener  {
         Block clickedBlock = e.getClickedBlock();
         if(clickedBlock == null){ return; }
 
-        //Check supported plugins if we can build here
-        if(!BuildCheck.canBuild(ply, clickedBlock)){ return; }
-
         //Check its a crop we clicked?
         Material mat = clickedBlock.getType();
         if (!isCrop(mat)) { return; }
@@ -94,6 +92,17 @@ public class Events implements Listener  {
         //Check the crop is ripe
         Ageable age = (Ageable) clickedBlock.getBlockData();
         if(!isSniffer(mat) && !isRipe(mat, age.getAge())) { return; }
+
+        //Check supported plugins if we can build here
+        BuildCheck.BuildResult buildResult = BuildCheck.checkBuild(ply, clickedBlock);
+        if(!buildResult.allowed()){ return; }
+
+        // Quests farming objectives listen for a normal crop break. The
+        // fallback build check already fires one, so never publish it twice.
+        if(BuildCheck.hasPlugin("Quests") && !buildResult.blockBreakEventFired()
+                && !Quests.publishHarvest(ply, clickedBlock)) {
+            return;
+        }
 
         Sounds.popSound(clickedBlock, harvestVolume);
 
