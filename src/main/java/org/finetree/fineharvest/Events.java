@@ -120,7 +120,7 @@ public class Events implements Listener  {
         }
 
         //API AureliumSkills Compat for Farming XP
-        if(aureliumSkillsSupport && skillMods.getOrDefault("AureliumSkills", false)){
+        if(aureliumSkillsSupport && skillMods.getOrDefault("AuraSkills", false)){
             AureliumSkills.aureliumAddXP(ply, mat);
         }
 
@@ -240,14 +240,14 @@ public class Events implements Listener  {
     public void plugEnable(PluginEnableEvent e) {
         Plugin plugin = e.getPlugin();
         switch( plugin.getDescription().getName() ){
-            case "AureliumSkills":
+            case "AuraSkills":
                 if(!aureliumSkillsSupport){ break; }
-                skillMods.put( "AureliumSkills", true );
+                skillMods.put( "AuraSkills", true );
                 plugin.getServer().getConsoleSender().sendMessage( tag
-                        + ChatColor.GREEN + "AureliumSkills support enabled"
-                        + ChatColor.RESET + " - Reloading Aurelium XP Values." );
-                File file = new File("plugins/AureliumSkills/sources_config.yml");
-                FineHarvest.AureliumSources = YamlConfiguration.loadConfiguration(file);
+                        + ChatColor.GREEN + "AuraSkills support enabled"
+                        + ChatColor.RESET + " - Reloading AuraSkills XP Values." );
+                File file = new File("plugins/AuraSkills/sources/farming.yml");
+                FineHarvest.AuraSources = YamlConfiguration.loadConfiguration(file);
                 break;
             case "mcMMO":
                 if(!mcMMOSupport){ break; }
@@ -261,11 +261,11 @@ public class Events implements Listener  {
     public void plugDisable(PluginDisableEvent e) {
         Plugin plugin = e.getPlugin();
         switch( plugin.getDescription().getName() ){
-            case "AureliumSkills":
+            case "AuraSkills":
                 if(!aureliumSkillsSupport){ break; }
-                skillMods.put( "AureliumSkills", false );
+                skillMods.put( "AuraSkills", false );
                 plugin.getServer().getConsoleSender().sendMessage( tag
-                        + ChatColor.RED + "AureliumSkills support disabled" );
+                        + ChatColor.RED + "AuraSkills support disabled" );
                 break;
             case "mcMMO":
                 if(!mcMMOSupport){ break; }

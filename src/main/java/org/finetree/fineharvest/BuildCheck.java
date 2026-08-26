@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 import org.finetree.fineharvest.protection.GriefDef;
 import org.finetree.fineharvest.protection.Plot2;
 import org.finetree.fineharvest.protection.ProtStones;
+import org.finetree.fineharvest.protection.SuperiorSkyblock2;
 
 import static org.finetree.fineharvest.FineHarvest.warnNoProtection;
 import static org.finetree.fineharvest.protection.EssentialsAB.canEssentialsAntiBuild;
@@ -41,6 +42,11 @@ public class BuildCheck {
         }
         if(hasPlugin("GriefDefender")){
             return GriefDef.canGriefDefender(ply, b);
+        }
+        if (hasPlugin("SuperiorSkyblock2")) {
+            if (SuperiorSkyblock2.canSuperiorSkyblock2(ply, b)) {//Skip SuperSkyblock2 check if no island, leave it up to WG global regions.
+                return true;
+            }
         }
         /*if(hasPlugin("Residence")) {
             ResidencePlayer rPlayer = Residence.getInstance().getPlayerManager().getResidencePlayer(ply);

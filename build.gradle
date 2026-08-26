@@ -57,13 +57,17 @@ repositories {
     maven {
         url = uri('https://repo.maven.apache.org/maven2/')
     }
+
+    maven {
+        url 'https://repo.bg-software.com/repository/api/'
+    }
 }
 
 dependencies {
     implementation 'com.github.Redempt:RedLib:6.5.2.1'
     compileOnly 'org.spigotmc:spigot-api:1.21.7-R0.1-SNAPSHOT'
     compileOnly 'com.gmail.nossr50.mcMMO:mcMMO:2.1.225' exclude group: 'commons-io'
-    compileOnly 'com.github.Archy-X:AureliumSkills:Beta1.3.23'
+    compileOnly 'dev.aurelium:auraskills-api-bukkit:2.2.4'
     compileOnly 'com.github.TechFortress:GriefPrevention:16.18'
     compileOnly 'com.github.TownyAdvanced:Towny:0.100.3.13'
     compileOnly 'com.github.angeschossen:LandsAPI:6.37.0'
@@ -73,6 +77,7 @@ dependencies {
     compileOnly 'com.intellectualsites.plotsquared:plotsquared-core'
     compileOnly 'com.griefdefender:api:2.1.0-SNAPSHOT'
     compileOnly 'net.essentialsx:EssentialsX:2.19.0'
+    compileOnly 'com.bgsoftware:SuperiorSkyblockAPI:2025.1'
 }
 
 java.sourceCompatibility = JavaVersion.VERSION_17
