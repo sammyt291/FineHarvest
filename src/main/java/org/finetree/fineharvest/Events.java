@@ -19,7 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
-import org.finetree.fineharvest.quests.Quests;
+import org.finetree.fineharvest.quests.QuestsIntegration;
 import org.finetree.fineharvest.skills.AureliumSkills;
 import org.finetree.fineharvest.skills.mcMMO;
 
@@ -99,8 +99,8 @@ public class Events implements Listener  {
 
         // Quests farming objectives listen for a normal crop break. The
         // fallback build check already fires one, so never publish it twice.
-        if(BuildCheck.hasPlugin("Quests") && !buildResult.blockBreakEventFired()
-                && !Quests.publishHarvest(ply, clickedBlock)) {
+        if(QuestsIntegration.isEnabled() && !buildResult.blockBreakEventFired()
+                && !QuestsIntegration.publishHarvest(ply, clickedBlock)) {
             return;
         }
 
