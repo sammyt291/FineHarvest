@@ -9,10 +9,11 @@ public class GriefPrevention {
 
     public static boolean canGriefPrev(Player ply, Block b){
         Claim claim = me.ryanhamshire.GriefPrevention.GriefPrevention.instance.dataStore.getClaimAt(b.getLocation(), true, null);
-        if (claim != null) {
-            return claim.checkPermission(ply.getUniqueId(), ClaimPermission.Build, null) == null;
-        }
-        return false;
+        return canBuild(ply, claim);
+    }
+
+    static boolean canBuild(Player player, Claim claim) {
+        return claim == null || claim.checkPermission(player.getUniqueId(), ClaimPermission.Build, null) == null;
     }
 
 }
