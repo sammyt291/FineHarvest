@@ -23,6 +23,7 @@ import org.finetree.fineharvest.skills.AureliumSkills;
 import org.finetree.fineharvest.skills.mcMMO;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.Random;
 
 import static org.finetree.fineharvest.Config.*;
@@ -31,6 +32,34 @@ import static org.finetree.fineharvest.FineHarvest.tag;
 
 
 public class Events implements Listener  {
+    
+    // Enchantment references - resolved at runtime for version compatibility
+    private static final Enchantment UNBREAKING_ENCHANT;
+    private static final Enchantment FORTUNE_ENCHANT;
+    
+    static {
+        // UNBREAKING was called DURABILITY in older versions
+        UNBREAKING_ENCHANT = getEnchantmentByName("UNBREAKING", "DURABILITY");
+        // FORTUNE for blocks was LOOT_BONUS_BLOCKS in older versions
+        FORTUNE_ENCHANT = getEnchantmentByName("FORTUNE", "LOOT_BONUS_BLOCKS");
+    }
+    
+    /**
+     * Gets an enchantment by trying multiple names for version compatibility.
+     * Uses reflection to access enchantment fields by name.
+     */
+    private static Enchantment getEnchantmentByName(String... names) {
+        for (String name : names) {
+            try {
+                Field field = Enchantment.class.getDeclaredField(name);
+                return (Enchantment) field.get(null);
+            } catch (NoSuchFieldException | IllegalAccessException ignored) {
+                // Try next name
+            }
+        }
+        return null;
+    }
+    
     @EventHandler(priority= EventPriority.HIGH)
     public void onUse(PlayerInteractEvent e) {
 
@@ -80,8 +109,8 @@ public class Events implements Listener  {
         //Delay durability damage with Unbreaking level.
         //Should be average random percent chance. im making it hard percent difference. Deal with it, I suppose. (Might affect it by a few % either way)
         int unbreaking = 1;
-        if(!ignoreUnbreaking) {
-            unbreaking = item.getEnchantmentLevel(Enchantment.UNBREAKING) + 1;
+        if(!ignoreUnbreaking && UNBREAKING_ENCHANT != null) {
+            unbreaking = item.getEnchantmentLevel(UNBREAKING_ENCHANT) + 1;
         }
 
         //Count harvests
@@ -130,49 +159,72 @@ public class Events implements Listener  {
 
     } //onUse
 
+    /**
+     * Check if a material is a hoe by checking if its name ends with "_HOE".
+     * This approach is compatible with all Minecraft versions and automatically
+     * supports new hoe types (e.g., COPPER_HOE in 1.17+, NETHERITE_HOE in 1.16+).
+     */
     private boolean isHoe(Material material) {
-        return switch (material) {
-            case WOODEN_HOE, STONE_HOE, IRON_HOE, GOLDEN_HOE, DIAMOND_HOE, NETHERITE_HOE -> true;
-            default -> false;
-        };
+        return material.name().endsWith("_HOE");
     }
 
+    /**
+     * Check if a material is a harvestable crop.
+     * Uses name-based checking for newer crops (1.20+ sniffer crops) to maintain
+     * compatibility with older Minecraft versions.
+     */
     private boolean isCrop(Material material) {
-        return switch (material) {
-            case WHEAT, CARROTS, POTATOES, BEETROOTS, NETHER_WART, TORCHFLOWER_CROP, PITCHER_CROP -> true;
+        String name = material.name();
+        return switch (name) {
+            case "WHEAT", "CARROTS", "POTATOES", "BEETROOTS", "NETHER_WART",
+                 "TORCHFLOWER_CROP", "PITCHER_CROP" -> true;
             default -> false;
         };
     }
 
+    /**
+     * Check if a crop is ripe based on its age.
+     * Uses name-based checking for version compatibility.
+     */
     private boolean isRipe(Material material, int age) {
-        return switch (material) {
-            case WHEAT, CARROTS, POTATOES -> age == 7;
-            case BEETROOTS -> age == 3;
-            case NETHER_WART -> age == 3;
+        String name = material.name();
+        return switch (name) {
+            case "WHEAT", "CARROTS", "POTATOES" -> age == 7;
+            case "BEETROOTS", "NETHER_WART" -> age == 3;
             default -> false;
         };
     }
 
+    /**
+     * Check if a material is a sniffer crop (1.20+).
+     * Uses name-based checking for version compatibility.
+     */
     private boolean isSniffer(Material material) {
-        return switch(material) {
-            case PITCHER_CROP, TORCHFLOWER_CROP -> true;
+        String name = material.name();
+        return switch(name) {
+            case "PITCHER_CROP", "TORCHFLOWER_CROP" -> true;
             default -> false;
         };
     }
 
+    /**
+     * Drop seeds and harvested items for a crop.
+     * Uses name-based material matching for version compatibility with newer crops.
+     */
     private void dropSeeds(Material mat, Block blk, ItemStack hoe) {
 
         //Add fortune level to max drop.
         int fortune = 0;
-        if(!ignoreFortune) {
-            fortune = hoe.getEnchantmentLevel(Enchantment.FORTUNE);
+        if(!ignoreFortune && FORTUNE_ENCHANT != null) {
+            fortune = hoe.getEnchantmentLevel(FORTUNE_ENCHANT);
         }
 
         ItemStack drops = new ItemStack(Material.WHEAT_SEEDS, rand(Math.max(1, minWheatSeeds),maxWheatSeeds + fortune));
         ItemStack harvest = new ItemStack(Material.WHEAT, rand(minWheat, maxWheat));
 
-        switch (mat) {
-            case WHEAT:
+        String matName = mat.name();
+        switch (matName) {
+            case "WHEAT":
                 if(drops.getAmount() > 0) {
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
                 }
@@ -180,21 +232,21 @@ public class Events implements Listener  {
                     blk.getWorld().dropItemNaturally(blk.getLocation(), harvest);
                 }
                 break;
-            case CARROTS:
+            case "CARROTS":
                 drops.setType(Material.CARROT);
                 drops.setAmount(rand(minCarrots, maxCarrots + fortune));
                 if(drops.getAmount() > 0) {
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
                 }
                 break;
-            case POTATOES:
+            case "POTATOES":
                 drops.setType(Material.POTATO);
                 drops.setAmount(rand(minPotatos, maxPotatos + fortune));
                 if(drops.getAmount() > 0){
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
                 }
                 break;
-            case BEETROOTS:
+            case "BEETROOTS":
                 drops.setType(Material.BEETROOT_SEEDS);
                 drops.setAmount(rand(minBeetrootSeeds, maxBeetrootSeeds + fortune));
                 harvest.setType(Material.BEETROOT);
@@ -206,24 +258,28 @@ public class Events implements Listener  {
                     blk.getWorld().dropItemNaturally(blk.getLocation(), harvest);
                 }
                 break;
-            case NETHER_WART:
+            case "NETHER_WART":
                 drops.setType(Material.NETHER_WART);
                 drops.setAmount(rand(minNetherWart, maxNetherWart + fortune));
                 if(drops.getAmount() > 0) {
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
                 }
                 break;
-            case PITCHER_CROP:
-                drops.setType(Material.PITCHER_PLANT);
-                drops.setAmount(1);
-                if(drops.getAmount() > 0) {
+            case "PITCHER_CROP":
+                // PITCHER_PLANT is 1.20+ - use matchMaterial for compatibility
+                Material pitcherPlant = Material.matchMaterial("PITCHER_PLANT");
+                if(pitcherPlant != null) {
+                    drops.setType(pitcherPlant);
+                    drops.setAmount(1);
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
                 }
                 break;
-            case TORCHFLOWER_CROP:
-                drops.setType(Material.TORCHFLOWER);
-                drops.setAmount(1);
-                if(drops.getAmount() > 0) {
+            case "TORCHFLOWER_CROP":
+                // TORCHFLOWER is 1.20+ - use matchMaterial for compatibility
+                Material torchflower = Material.matchMaterial("TORCHFLOWER");
+                if(torchflower != null) {
+                    drops.setType(torchflower);
+                    drops.setAmount(1);
                     blk.getWorld().dropItemNaturally(blk.getLocation(), drops);
                 }
                 break;
