@@ -4,7 +4,7 @@
 
 plugins {
     id 'java'
-    id 'com.gradleup.shadow' version '9.0.0-beta2'
+    id 'com.gradleup.shadow' version '9.2.2'
 }
 
 description = 'FineHarvest'
@@ -68,53 +68,73 @@ dependencies {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
+
     compileOnly 'dev.folia:folia-api:1.21.11-R0.1-SNAPSHOT'
+
     compileOnly ('com.gmail.nossr50.mcMMO:mcMMO:2.1.225') {
         exclude group: 'commons-io'
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
-    compileOnly ('com.github.Archy-X:AureliumSkills:Beta1.3.21') {
+
+    compileOnly ('dev.aurelium:auraskills-api-bukkit:2.2.4') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
+
     compileOnly ('com.github.TechFortress:GriefPrevention:16.18') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
+
     compileOnly ('com.github.TownyAdvanced:Towny:0.100.3.13') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
+
     compileOnly ('com.github.angeschossen:LandsAPI:6.37.0') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
+
     compileOnly ('dev.espi:protectionstones:2.10.2') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
+
     compileOnly ('com.sk89q.worldguard:worldguard-bukkit:7.0.7') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
+
     implementation(platform("com.intellectualsites.bom:bom-newest:1.39"))
+
     compileOnly ('com.intellectualsites.plotsquared:plotsquared-core') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
+
     compileOnly ('com.griefdefender:api:2.1.0-SNAPSHOT') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
+
     compileOnly ('net.essentialsx:EssentialsX:2.19.0') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+
+    compileOnly ('com.bgsoftware:SuperiorSkyblockAPI:2025.1') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
     }
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_21
-java.targetCompatibility = JavaVersion.VERSION_21
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
 shadowJar {
     archiveClassifier.set('')

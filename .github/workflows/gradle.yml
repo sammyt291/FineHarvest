@@ -1,25 +1,37 @@
 name: Build and Release
 
-on: push
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'adopt'
+          distribution: 'temurin'
+          cache: 'gradle'
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./gradlew shadowJar
+        run: ./gradlew shadowJar --no-daemon
 
       - name: Extract version from gradle.properties
         id: extract_version
@@ -28,7 +40,7 @@ jobs:
           echo "Extracted version is $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Check if Tag Exists
+      - name: Check if tag exists
         id: check_tag
         run: |
           if git rev-parse "v${{ steps.extract_version.outputs.version }}" >/dev/null 2>&1; then
@@ -37,18 +49,20 @@ jobs:
             echo "exists=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create Tag
-        uses: negz/create-tag@v1
+      - name: Create tag
         if: steps.check_tag.outputs.exists == 'false'
-        with:
-          token: ${{ secrets.TEST }}
-          version: "v${{ steps.extract_version.outputs.version }}"
-          message: ""
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "v${{ steps.extract_version.outputs.version }}" \
+            -m "Release v${{ steps.extract_version.outputs.version }}"
+          git push origin "v${{ steps.extract_version.outputs.version }}"
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          token: ${{ secrets.TEST }}
           tag_name: "v${{ steps.extract_version.outputs.version }}"
           name: "Release v${{ steps.extract_version.outputs.version }}"
           files: build/libs/*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
