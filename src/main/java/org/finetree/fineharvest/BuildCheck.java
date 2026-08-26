@@ -22,30 +22,41 @@ import static org.bukkit.Bukkit.getServer;
 
 public class BuildCheck {
 
+    /**
+     * The result of a build check. Some fallback checks publish a
+     * {@link BlockBreakEvent}; integrations must know this so they do not
+     * publish the same harvest twice.
+     */
+    public record BuildResult(boolean allowed, boolean blockBreakEventFired) {}
+
     public static boolean canBuild(Player ply, Block b) {
+        return checkBuild(ply, b).allowed();
+    }
+
+    public static BuildResult checkBuild(Player ply, Block b) {
         if(hasPlugin("Towny")) {
-            return canTowny(ply, b);
+            return new BuildResult(canTowny(ply, b), false);
         }
         if(hasPlugin("Lands")){
-            return canLands(ply, b);
+            return new BuildResult(canLands(ply, b), false);
         }
         if(hasPlugin("GriefPrevention")) {
-            return canGriefPrev(ply, b);
+            return new BuildResult(canGriefPrev(ply, b), false);
         }
         if(hasPlugin("ProtectionStones")){
             if(ProtStones.canProtectionStones(ply, b)){//Skip protectionstones check if no region, leave it up to WG global regions.
-                return true;
+                return new BuildResult(true, false);
             }
         }
         if(hasPlugin("PlotSquared")){
-            return Plot2.canPlotSquared(ply, b);
+            return new BuildResult(Plot2.canPlotSquared(ply, b), false);
         }
         if(hasPlugin("GriefDefender")){
-            return GriefDef.canGriefDefender(ply, b);
+            return new BuildResult(GriefDef.canGriefDefender(ply, b), false);
         }
         if (hasPlugin("SuperiorSkyblock2")) {
             if (SuperiorSkyblock2.canSuperiorSkyblock2(ply, b)) {//Skip SuperSkyblock2 check if no island, leave it up to WG global regions.
-                return true;
+                return new BuildResult(true, false);
             }
         }
         /*if(hasPlugin("Residence")) {
@@ -53,11 +64,11 @@ public class BuildCheck {
             return rPlayer.canBreakBlock(b, true);
         }*/
         if(hasPlugin("WorldGuard")) {
-            return canWorldGuard(ply, b);
+            return new BuildResult(canWorldGuard(ply, b), false);
         }
         //Check for both, as people be silly.
         if(hasPlugin("EssentialsAntiBuild") && hasPlugin("Essentials")){
-            return canEssentialsAntiBuild(ply, b);
+            return new BuildResult(canEssentialsAntiBuild(ply, b), false);
         }
 
         warnNoProtection();
@@ -65,7 +76,7 @@ public class BuildCheck {
         //Player can BlockBreak at this location?
         BlockBreakEvent e = new BlockBreakEvent(b, ply);
         FineHarvest.getPlugin().getServer().getPluginManager().callEvent(e);
-        return !e.isCancelled();
+        return new BuildResult(!e.isCancelled(), true);
     }
 
     public static boolean hasPlugin(String plugin){
