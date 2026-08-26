@@ -4,7 +4,7 @@
 
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '8.1.1'
+    id 'com.gradleup.shadow' version '9.2.2'
 }
 
 description = 'FineHarvest'
@@ -64,33 +64,88 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.Redempt:RedLib:6.5.2.1'
-    compileOnly 'org.spigotmc:spigot-api:1.14.4-R0.1-SNAPSHOT'
-    compileOnly 'com.gmail.nossr50.mcMMO:mcMMO:2.1.225' exclude group: 'commons-io'
-    compileOnly 'dev.aurelium:auraskills-api-bukkit:2.2.4'
-    compileOnly 'com.github.TechFortress:GriefPrevention:16.18'
-    compileOnly 'com.github.TownyAdvanced:Towny:0.100.3.13'
-    compileOnly 'com.github.angeschossen:LandsAPI:6.37.0'
-    compileOnly 'dev.espi:protectionstones:2.10.2'
-    compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.7'
+    implementation ('com.github.Redempt:RedLib:6.5.2.1') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+
+    compileOnly 'dev.folia:folia-api:1.21.11-R0.1-SNAPSHOT'
+
+    compileOnly ('com.gmail.nossr50.mcMMO:mcMMO:2.1.225') {
+        exclude group: 'commons-io'
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+
+    compileOnly ('dev.aurelium:auraskills-api-bukkit:2.2.4') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+
+    compileOnly ('com.github.TechFortress:GriefPrevention:16.18') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+
+    compileOnly ('com.github.TownyAdvanced:Towny:0.100.3.13') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+
+    compileOnly ('com.github.angeschossen:LandsAPI:6.37.0') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+
+    compileOnly ('dev.espi:protectionstones:2.10.2') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+
+    compileOnly ('com.sk89q.worldguard:worldguard-bukkit:7.0.7') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+
     implementation(platform("com.intellectualsites.bom:bom-newest:1.39"))
-    compileOnly 'com.intellectualsites.plotsquared:plotsquared-core'
-    compileOnly 'com.griefdefender:api:2.1.0-SNAPSHOT'
-    compileOnly 'net.essentialsx:EssentialsX:2.19.0'
-    compileOnly 'com.bgsoftware:SuperiorSkyblockAPI:2025.1'
-}
 
-java.sourceCompatibility = JavaVersion.VERSION_17
+    compileOnly ('com.intellectualsites.plotsquared:plotsquared-core') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
 
-shadowJar {
-    archiveFileName = project.description + "-" + version + ".jar"
-    relocate 'redempt.redlib', 'org.finetree.fineharvest.redlib'
+    compileOnly ('com.griefdefender:api:2.1.0-SNAPSHOT') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
 
-    // Check if running in GitHub Actions
-    if (System.getenv("GITHUB_ACTIONS") == null) {
-        destinationDirectory = file('F:/plugins')
+    compileOnly ('net.essentialsx:EssentialsX:2.19.0') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
+    }
+
+    compileOnly ('com.bgsoftware:SuperiorSkyblockAPI:2025.1') {
+        exclude group: 'org.spigotmc', module: 'spigot-api'
+        exclude group: 'org.bukkit', module: 'bukkit'
     }
 }
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+shadowJar {
+    archiveClassifier.set('')
+    relocate 'redempt.redlib', 'org.finetree.fineharvest.redlib'
+}
+
+jar {
+    enabled = false
+}
+
+build.dependsOn shadowJar
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
@@ -103,7 +158,7 @@ tasks.withType(Javadoc).configureEach {
 processResources {
     def props = [version: version, name: project.description]
     inputs.properties props
-    filteringCharset 'UTF-8'
+    filteringCharset = 'UTF-8'
     filesMatching('plugin.yml') {
         expand props
     }
