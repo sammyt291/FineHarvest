@@ -29,7 +29,7 @@ public class BuildCheck {
         if(hasPlugin("Lands")){
             return canLands(ply, b);
         }
-        if(hasPlugin("griefPrevention")) {
+        if(hasPlugin("GriefPrevention")) {
             return canGriefPrev(ply, b);
         }
         if(hasPlugin("ProtectionStones")){

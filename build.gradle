@@ -64,6 +64,8 @@ repositories {
 }
 
 dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.12.2'
+
     implementation ('com.github.Redempt:RedLib:6.5.2.1') {
         exclude group: 'org.spigotmc', module: 'spigot-api'
         exclude group: 'org.bukkit', module: 'bukkit'
@@ -153,6 +155,10 @@ tasks.withType(JavaCompile).configureEach {
 
 tasks.withType(Javadoc).configureEach {
     options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
 }
 
 processResources {
